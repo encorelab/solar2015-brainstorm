@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Solar 2015 Brainstorm</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1 user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="../bower_components/jquery-toastmessage-plugin/src/main/resources/css/jquery.toastmessage.css" rel="stylesheet">
+    <!-- <script src="../bower_components/sweetalert/lib/sweet-alert.min.js"></script> -->
+    <!-- <link href="../bower_components/sweetalert/lib/sweet-alert.css" rel="stylesheet"> -->
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400,300' rel='stylesheet' type='text/css'>
+
+    <link href="css/leaf-drop.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+
+    <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="../node_modules/underscore/underscore.js"></script>
+    <script type="text/javascript" src="../node_modules/backbone/backbone.js"></script>
+
+    <script type="text/javascript" src="../node_modules/backbone.drowsy.encorelab/backbone.drowsy.js"></script>
+    <script type="text/javascript" src="../node_modules/backbone.drowsy.encorelab/wakeful.js"></script>
+
+    <script type="text/javascript" src="../bower_components/jquery-toastmessage-plugin/src/main/javascript/jquery.toastmessage.js"></script>
+    <script type="text/javascript" src="../bower_components/jquery.cookie/jquery.cookie.js"></script>
+    <script type="text/javascript" src="../bower_components/purl/purl.js"></script>
+
+    <script type="text/javascript" src="../shared/js/skeletor.js"></script>
+    <script type="text/javascript" src="../shared/js/model.js"></script>
+    <script type="text/javascript" src="../shared/js/rollcall.js"></script>
+
+
+    <script type="text/javascript" src="js/leaf-drop.js"></script>
+    <script type="text/javascript" src="js/leaf-drop.view.js"></script>
+
+    <!-- Tree Species Template -->
+    <script id="tree-species-list-template" type="text/template">
+        <li class="list-item col-xs-12 col-sm-5">
+            <div class="row">
+                <div class="tree-species-styles col-xs-2">
+                    <input class="input-field tree-species" name="tree-species" type="radio" value="<%= common_name %>" data-field-name="tree_species">
+                </div>
+                <div class="col-xs-8 col-xs-offset-2">
+                    <h4 class="tree-species-styles"><%= common_name %></h4>
+                    <p class="tree-species-styles text-muted"><%= latin_name %></i>
+                </div>
+                <a class="tree-species-styles col-xs-2 col-xs-offset-10" href="<%= wikipedia_url %>" data-toggle="modal" data-target="#myModal"><img class="wiki-link img-responsive" src="img/learn_more.svg" alt="Learn more icon"></a>
+            </div>
+        </li>
+    </script>
+
+    <!-- Review Data Template -->
+    <script id="review-data-list-template" type="text/template">
+        <li class="data-list-item col-xs-12 col-sm-5">
+            <h3>Leaf <span class=""><%= leaf_num %><span>:</h3>
+            <div class="row">
+                <p class="col-xs-12 pull-left">Length<span class="leaf-length col-xs-6 pull-right"><%= leaf_length %><span></p>
+                <p class="col-xs-12 pull-left">Width<span class="leaf-width col-xs-6 pull-right"><%= leaf_width %><span></p>
+                <p class="col-xs-12 pull-left">Percent Color<span class="percent-colored-leaf col-xs-6 pull-right"><%= percent_colored %><span></p>
+            </div>
+        </li>
+    </script>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand brand" href="#">Brand</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navigation">
+                <li id="collect-nav-btn" class="nav-btn disabled"><a href="#collect-screen">Collect</a></li>
+                <li id="weather-nav-btn" class="nav-btn disabled"><a href="#weather-screen">Weather</a></li>
+                <li id="map-nav-btn" class="nav-btn disabled"><a href="#map-screen">Map</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active username-display"><a></a></li>
+                <li id="logout-user" class="active logout-user"><a>Logout</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+
+    <div id="collect-screen" class="container">
+        <div class="row-fluid">
+            <div id="title-page">
+                <div class="first-page text-center center-block row">
+                    <img src="img/_LeafDrop_Logo.png" class="img-responsive" alt="Leaf Drop logo">
+                    <h1 class="leaf-drop">Leaf Drop</h1>
+                    <button id="new-observation-btn" class="btn btn-default btn-lg btn-block">Start New Observation</button>
+                </div>
+            </div>
+
+            <div id="variable-content-container" class="bs-docs-sidebar hidden">
+                <!-- Title changes depending on which page you're on -->
+                <h2 class="page-title"></h2>
+
+                <!-- Selecting tree number, branch letter, tree species -->
+                <div id="leaf-1" class="tree-species-screen leaf-page hidden">
+                    <label for="id-tree-number">Tree Number</label><input id="id-tree-number" data-field-name="tree_number" class="input-field tree-number leaf-measurement-input" type="text">
+                    <label for="id-branch-letter" class="branch-letter-styles">Branch Letter</label><input id="id-branch-letter" data-field-name="branch_letter" class="input-field branch-letter leaf-measurement-input" type="text">
+                    <h3>Tree Species</h3>
+                    <ul id="tree-species-list" class="list-styles scrollable row"></ul>
+
+                    <!-- Modal Wikipedia Tree Species Page Pop-Up -->
+                    <div id="myModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <button class="close" type="button" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <div class="modal-body">
+                                    <!-- content inserted here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>  <!-- Modal end -->
+                </div>
+
+                <!-- Percentage of tree that is coloured -->
+                <div id="leaf-2" class="leaf-page hidden">
+                    <h3>Percent Colored (Whole Tree)</h3>
+                    <div class="row">
+                        <div class="col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-1 col-md-3 col-md-offset-0">
+                            <input id="colored-tree-0-25" class="input-field percent-colored-tree" type="radio" name="percent-colored-tree" value="0-25%" data-field-name="percent_colored_tree">
+                            <label for="colored-tree-0-25" class="label-lg text-center"><img src="img/whole_tree_colour_0-25.png" class="img-responsive space-bottom" alt="Tree with up to 25 percent of leaves colored">0-25&#37;</label>
+                        </div>
+                        <div class="col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-0">
+                            <input id="colored-tree-26-50" class="input-field percent-colored-tree" type="radio" name="percent-colored-tree" value="26-50%" data-field-name="percent_colored_tree">
+                            <label for="colored-tree-26-50" class="label-lg text-center"><img src="img/whole_tree_colour_26-50.png" class="img-responsive space-bottom" alt="Tree with 26 to 50 percent of leaves colored">26-50&#37;</label>
+                        </div>
+                        <div class="col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-1 col-md-3 col-md-offset-0">
+                            <input id="colored-tree-51-75" class="input-field percent-colored-tree" type="radio" name="percent-colored-tree" value="51-75%" data-field-name="percent_colored_tree">
+                            <label for="colored-tree-51-75" class="label-lg text-center"><img src="img/whole_tree_colour_51-75.png" class="img-responsive space-bottom" alt="Tree with 51 to 75 percent of leaves colored">51-75&#37;</label>
+                        </div>
+                        <div class="col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-0">
+                            <input id="colored-tree-75-100" class="input-field percent-colored-tree" type="radio" name="percent-colored-tree" value="76-100%" data-field-name="percent_colored_tree">
+                            <label for="colored-tree-75-100" class="label-lg text-center"><img src="img/whole_tree_colour_75-100.png" class="img-responsive space-bottom" alt="Tree with 76 to 100 percent of leaves colored">76-100&#37;</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Has this leaf fallen -->
+                <div id="leaf-3" class="leaf-page leaf-cycle hidden">
+
+                    <div id="progress-bar-container" class="row">
+                        <h3 class="col-sm-3">Leaf Number</h3>
+                        <div class="leaf-progress col-xs-2 col-sm-1">
+                            <img src="img/progress_leaf_coloured.png" alt="" class="img-responsive leaf-progress-img">
+                            <h4 class="text-center">1</h4>
+                        </div>
+                        <div class="leaf-progress col-xs-2 col-sm-1">
+                            <img src="img/progress_leaf_coloured.png" alt="" class="img-responsive leaf-progress-img">
+                            <h4 class="text-center">2</h4>
+                        </div>
+                        <div class="leaf-progress col-xs-2 col-sm-1">
+                            <img src="img/progress_leaf_coloured.png" alt="" class="img-responsive leaf-progress-img">
+                            <h4 class="text-center">3</h4>
+                        </div>
+                        <div class="leaf-progress col-xs-2 col-sm-1">
+                            <img src="img/progress_leaf_coloured.png" alt="" class="img-responsive leaf-progress-img">
+                            <h4 class="text-center">4</h4>
+                        </div>
+                        <div class="leaf-progress col-xs-2 col-sm-1">
+                            <img src="img/progress_leaf_coloured.png" alt="" class="img-responsive leaf-progress-img">
+                            <h4 class="text-center">5</h4>
+                        </div>
+                        <div class="leaf-progress col-xs-2 col-sm-1">
+                            <img src="img/progress_leaf_coloured.png" alt="" class="img-responsive leaf-progress-img">
+                            <h4 class="text-center">6</h4>
+                        </div>
+                    </div> <!-- progress-bar-container end -->
+
+                    <h2 class="text-center fallen-title">Has this leaf fallen?</h2>
+                    <div class="btn-container center-block">
+                        <input id="id-leaf-fallen-yes" class="input-field leaf-fallen" type="radio" name="leaf-fallen" value="yes" data-field-name="fallen"><label for="id-leaf-fallen-yes" class="">Yes</label>
+                    </div>
+                    <div class="btn-container center-block">
+                        <input id="id-leaf-fallen-no" class="input-field leaf-fallen" type="radio" name="leaf-fallen" value="no" data-field-name="fallen"><label for="id-leaf-fallen-no" class="">No</label>
+                    </div>
+                </div>
+
+                <!-- Length & width of leaf -->
+                <div id="leaf-4" class="leaf-page leaf-cycle hidden">
+
+                    <div id="progress-bar-container" class="row">
+                        <h3 class="col-sm-3">Leaf Number</h3>
+                        <div class="leaf-progress col-xs-2 col-sm-1">
+                            <img src="img/progress_leaf_coloured.png" alt="" class="img-responsive leaf-progress-img">
+                            <h4 class="text-center">1</h4>
+                        </div>
+                        <div class="leaf-progress col-xs-2 col-sm-1">
+                            <img src="img/progress_leaf_coloured.png" alt="" class="img-responsive leaf-progress-img">
+                            <h4 class="text-center">2</h4>
+                        </div>
+                        <div class="leaf-progress col-xs-2 col-sm-1">
+                            <img src="img/progress_leaf_coloured.png" alt="" class="img-responsive leaf-progress-img">
+                            <h4 class="text-center">3</h4>
+                        </div>
+                        <div class="leaf-progress col-xs-2 col-sm-1">
+                            <img src="img/progress_leaf_coloured.png" alt="" class="img-responsive leaf-progress-img">
+                            <h4 class="text-center">4</h4>
+                        </div>
+                        <div class="leaf-progress col-xs-2 col-sm-1">
+                            <img src="img/progress_leaf_coloured.png" alt="" class="img-responsive leaf-progress-img">
+                            <h4 class="text-center">5</h4>
+                        </div>
+                        <div class="leaf-progress col-xs-2 col-sm-1">
+                            <img src="img/progress_leaf_coloured.png" alt="" class="img-responsive leaf-progress-img">
+                            <h4 class="text-center">6</h4>
+                        </div>
+                    </div> <!-- progress-bar-container end -->
+
+                    <div class="row">
+                        <div class="col-xs-10 col-xs-offset-1 col-sm-5 col-lg-offset-1">
+                            <img src="img/leaf_length.png" class="img-responsive leaf-dimension" alt="Leaf length">
+                            <label for="id-leaf-length">Leaf Length</label>
+                            <span>
+                                <input id="id-leaf-length" class="input-field leaf-length leaf-measurement-input" type="number" data-field-name="leaf_length">
+                                <label>cm</label>
+                            </span>
+                        </div>
+                        <div class="col-xs-10 col-xs-offset-1 col-sm-5 col-sm-offset-1">
+                            <img src="img/leaf_width.png" class="img-responsive leaf-dimension" alt="Leaf width">
+                            <label for="id-leaf-width">Leaf Width</label>
+                            <span>
+                                <input id="id-leaf-width" class="input-field leaf-width leaf-measurement-input" type="number" data-field-name="leaf_width">
+                                <label>cm</label>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Percentage of leaf that is coloured -->
+                <div id="leaf-5" class="leaf-page leaf-cycle hidden">
+
+                    <div id="progress-bar-container" class="row">
+                        <h3 class="col-sm-3">Leaf Number</h3>
+                        <div class="leaf-progress col-xs-2 col-sm-1">
+                            <img src="img/progress_leaf_coloured.png" alt="" class="img-responsive leaf-progress-img">
+                            <h4 class="text-center">1</h4>
+                        </div>
+                        <div class="leaf-progress col-xs-2 col-sm-1">
+                            <img src="img/progress_leaf_coloured.png" alt="" class="img-responsive leaf-progress-img">
+                            <h4 class="text-center">2</h4>
+                        </div>
+                        <div class="leaf-progress col-xs-2 col-sm-1">
+                            <img src="img/progress_leaf_coloured.png" alt="" class="img-responsive leaf-progress-img">
+                            <h4 class="text-center">3</h4>
+                        </div>
+                        <div class="leaf-progress col-xs-2 col-sm-1">
+                            <img src="img/progress_leaf_coloured.png" alt="" class="img-responsive leaf-progress-img">
+                            <h4 class="text-center">4</h4>
+                        </div>
+                        <div class="leaf-progress col-xs-2 col-sm-1">
+                            <img src="img/progress_leaf_coloured.png" alt="" class="img-responsive leaf-progress-img">
+                            <h4 class="text-center">5</h4>
+                        </div>
+                        <div class="leaf-progress col-xs-2 col-sm-1">
+                            <img src="img/progress_leaf_coloured.png" alt="" class="img-responsive leaf-progress-img">
+                            <h4 class="text-center">6</h4>
+                        </div>
+                    </div> <!-- progress-bar-container end -->
+
+                    <h3>Percent Colored</h3>
+                    <div class="row">
+                        <div class="col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-1 col-md-3 col-md-offset-0">
+                            <input id="colored-leaf-0-25" class="input-field percent-colored-leaf" type="radio" name="percent-colored-leaf" value="0-25%" data-field-name="percent_colored">
+                            <label for="colored-leaf-0-25" class="label-lg text-center"><img src="img/leaf_colour_0-25.png" class="img-responsive space-bottom percent-leaf-img" alt="Leaf with up to 25 percent colored">0-25&#37;</label>
+                        </div>
+                        <div class="col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-0">
+                            <input id="colored-leaf-26-50" class="input-field percent-colored-leaf" type="radio" name="percent-colored-leaf" value="26-50%" data-field-name="percent_colored">
+                            <label for="colored-leaf-26-50" class="label-lg text-center"><img src="img/leaf_colour_26-50.png" class="img-responsive space-bottom  percent-leaf-img" alt="Leaf with 26 to 50 percent colored">26-50&#37;</label>
+                        </div>
+                        <div class="col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-1 col-md-3 col-md-offset-0">
+                            <input id="colored-leaf-51-75" class="input-field percent-colored-leaf" type="radio" name="percent-colored-leaf" value="51-75%" data-field-name="percent_colored">
+                            <label for="colored-leaf-51-75" class="label-lg text-center"><img src="img/leaf_colour_51-75.png" class="img-responsive space-bottom  percent-leaf-img" alt="Leaf with 51 to 75 percent colored">51-75&#37;</label>
+                        </div>
+                        <div class="col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-0">
+                            <input id="colored-leaf-76-100" class="input-field percent-colored-leaf" type="radio" name="percent-colored-leaf" value="76-100%" data-field-name="percent_colored">
+                            <label for="colored-leaf-76-100" class="label-lg text-center"><img src="img/leaf_colour_76-100.png" class="img-responsive space-bottom  percent-leaf-img" alt="Leaf with 76 to percent100% colored">76-100&#37;</label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Textarea to enter additional field notes -->
+                <div id="leaf-6" class="leaf-page hidden">
+                    <h3>Additional Field Notes (Optional)</h3>
+                    <p class="text-muted">Notes about field conditions, other plants, wildlife, or any human activity you notice while collecting data</p>
+                    <div class="row">
+                        <input class="input-field field-notes col-xs-11 col-sm-9" type="textarea" data-field-name="additional_notes">
+                    </div>
+                </div>
+
+                <!-- Review data screen -->
+                <div id="leaf-7" class="review-data-screen leaf-page hidden">
+                    <div class="row">
+                        <h3 class="col-xs-6 col-sm-3">Tree Number: <span class="tree-number-field"></span></h3>
+                        <h3 class="col-xs-6 col-sm-3">Branch Letter: <span class="branch-letter-field"></span></h3>
+                        <h3 class="col-xs-6 col-sm-3">Tree Species: <span class="tree-species-field"></span></h3>
+                        <h3 class="col-xs-6 col-sm-3">&#37;Color: <span class="percent-colored-tree-field"></span></h3>
+                    </div>
+                    <ul id="review-data-list" class="list-styles row"></ul>
+                    <div class="row">
+                        <h3 class="col-xs-6 col-sm-3 align-top">Additional Field Notes:</h3><p class="field-notes-field col-xs-6 col-sm-9"></p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="back-btn btn btn-lg btn-success hidden pull-left btn-move">Back</button>
+            <button class="next-btn btn btn-lg btn-success hidden pull-right btn-move">Next</button>
+        </div>
+    </div>
+
+    <!-- Weather Screen -->
+    <div id="weather-screen" class="container">
+        <div class="row-fluid">
+            <div id="page-title">
+                <!-- <iframe class="iframe-container" src="http://www.wunderground.com/cgi-bin/findweather/getForecast?query=43.661900,-79.395203"></iframe> -->
+
+                <div class="row">
+                    <img src="" alt="weather icon" class="weather-image col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-1">
+                    <div class="temperature col-xs-8 col-xs-offset-2 col-sm-4">
+                        <p class="temp-f-container"><span class="temp-f">##</span>&#176;F</p>
+                        <p class="weather-string">{ Weather Text }</p>
+                    </div>
+                    <div class="weather col-xs-8 col-xs-offset-2 col-sm-3 col-md-2 col-md-offset-1">
+                        <div class="row">
+                            <img src="img/icons/icon_wind.png" class="img-responsive icon" alt=""><p><span class="wind-mph">##</span> mph <span class="wind-dir">##</span></p>
+                        </div>
+                        <div class="row">
+                            <img src="img/icons/icon_rain.png" class="img-responsive icon" alt=""><p><span class="precipitation-percent">##</span> pop</p>
+                        </div>
+                        <div class="row">
+                            <img src="img/icons/icon_humidity.png" class="img-responsive icon" alt=""><p><span class="humidity">##</span> humidity</p>
+                        </div>
+                        <div class="row">
+                            <img src="img/icons/icon_uv.png" class="img-responsive icon" alt=""><p class="uv"></p>
+                        </div>
+                        <div class="row">
+                            <img src="img/icons/icon_dew.png" class="img-responsive icon" alt=""><p><span class="dewpoint_f">##</span>&#176;F dewpoint</p>
+                        </div>
+                    </div>
+<!--                     if decide to put in 5 hour forecast
+                    <div class="row">
+                        <div class="hidden-xs col-sm-2"></div>
+                        <div class="hidden-xs col-sm-2"></div>
+                        <div class="hidden-xs col-sm-2"></div>
+                        <div class="hidden-xs col-sm-2"></div>
+                        <div class="hidden-xs col-sm-2"></div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map Screen -->
+    <div id="map-screen" class="container">
+        <div class="row-fluid">
+            <div id="title-page">
+
+                <div id="map-canvas"></div>
+
+                <div class="row">
+                    <div class="map-sidebar col-xs-8 col-xs-offset-2 col-sm-3 col-sm-offset-8">
+                        <div class="row">
+                            <h3 class="streetview">Street View:</h3>
+                            <div id="pano"></div>
+                        </div>
+                        <div class="row">
+                            <h3>GPS Position:</h3>
+                            <p><span class="latitude">##</span>&nbsp;&nbsp;&nbsp;<span class="longitude">##</span></p>
+                        </div>
+                        <div class="row">
+                            <h3>Elevation:</h3>
+                            <p><span class="elevation">##</span> ft</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modals -->
+
+    <!-- Login Modal -->
+    <div id="login-picker" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="login-picker" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> -->
+                <h3>Please log in</h3>
+                </div>
+                <div class="modal-body login-buttons">
+                <!-- filled by java script with buttons for user login -->
+                </div>
+                <!-- <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                <button class="btn btn-primary">Save changes</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Note Picker Modal -->
+
+<!--     <div class="orientation-warning">
+        <p>If you hold Skeletor like that I am of no use :(<p>
+        <img src="img/skeletor-unicorn.jpg" alt="Skeletor Battle a Unicorn" />
+        <p>Please hold the device in landscape orientation!</p>
+    </div> -->
+
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+          // extending jQuery http://stackoverflow.com/questions/31044/is-there-an-exists-function-for-jquery
+          jQuery.fn.exists = function(){return this.length>0;}
+          Skeletor.Mobile.init();
+          jQuery('.note-taking-toggle').hide();
+        });
+    </script>
+</body>
+</html>

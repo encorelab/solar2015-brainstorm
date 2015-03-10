@@ -1,0 +1,861 @@
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+/********** MISC **********/
+
+/*    #collect-screen {
+    height: 100vh;
+}*/
+
+/* what's the correct way to do this? */
+.disabled {
+    pointer-events: none;
+    cursor: default;
+    /*background-color: #BDBDC1;*/                  /* we probably want something a little more stark than this */
+    opacity: 0.7;
+}
+
+
+
+/*to arrange buttons at bottom of screen, needs revising - maybe using calc??*/
+.leaf-page {
+    min-height: 65vh;
+}
+
+.view-container {
+    margin: 0 2%;
+}
+
+.orientation-warning {
+    display: none;
+}
+
+textarea.note-body {
+    -moz-user-select: text;
+    -webkit-user-select: text;
+    user-select: text;
+    color: #333;
+    width: 98%;
+    padding: 1%;
+}
+
+input {
+    -moz-user-select: text;
+    -webkit-user-select: text;
+    user-select: text;
+    color: #333;
+    border-radius: 7px;
+    border: solid #ddd 1px;
+    height: 45px;
+    margin-left: 20px;
+}
+
+input[type=text] {
+   font-size: 20px;
+   font-weight: 300;
+   padding-left: 20px;
+   width: 20%;
+}
+
+/*trying to get additional field notes text to align to top, currently not working*/
+input[type=textarea] {
+    vertical-align: top;
+    line-height: 100%;
+}
+
+.btn {
+    margin-bottom: 20px;
+    height: 45px;
+    min-width: 160px;
+}
+
+/*removing linear gradients from button defaults*/
+.btn-default,
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn-success,
+.btn-success:hover,
+.btn-success:focus,
+.btn-success:active {
+    background-image: none;
+    text-shadow: none;
+}
+
+.btn-success,
+.btn-success:hover,
+.btn-success:focus,
+.btn-success:active {
+    font-size: 16px;
+    letter-spacing: 0.05em;
+    border: none;
+}
+
+.btn-move {
+    margin-top: 20px;
+}
+
+.scrollable {
+    overflow-y: auto;
+}
+
+/*so the scroll bar appears at all times*/
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.5);
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+
+.hidden {
+    display: none;
+}
+
+.top-btn-container {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+}
+
+.view-container {
+    min-height: 300px !important;
+    margin-bottom: 10px;
+    position: relative;
+    background-color: white;
+    /*border: 1px solid;*/
+    /*padding: 5px;*/
+    /*border-radius: 7px;*/
+    /*box-shadow: rgba(0,0,0,0.2) 1px 4px 15px;*/
+}
+
+ul {
+    padding: 0;
+}
+
+.list-styles li {
+    border-radius: 7px;
+    border: solid #ddd 1px;
+    margin-bottom: 20px;
+    list-style: none;
+}
+
+.list-styles li:nth-of-type(2n) {
+    margin-left: 20px;
+}
+
+/*getting rid of bootstrap default margins*/
+.list-styles.row {
+    margin: 0;
+}
+
+/********** TYPOGRAPHY **********/
+
+body {
+    font-family: 'Open Sans', 'HelveticaNeue', 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+h1 {
+    font-size: 54px;
+    color: #444;
+    font-weight: 500;
+    margin-bottom: 35px;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 25px;
+}
+
+h3,
+label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #555;
+}
+
+h4 {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+label {
+    vertical-align: middle;
+}
+
+.label-lg {
+    font-size: 20px;
+    font-weight: 300;
+    margin-top: -25px;
+}
+
+/********** NAVBAR **********/
+
+/* This hides any element with class alert directly after an input field with a pattern (regex) */
+input[pattern] + .alert {
+    display: none;
+}
+
+/* If pattern (regex) is violated alert is shown */
+input[pattern]:invalid + .alert {
+    display: inline-block;
+}
+
+/* If pattern (regex) is violated submit button is hidden */
+input[pattern]:invalid ~ button {
+    display: none;
+}
+
+input:disabled {
+    display: none;
+}
+
+#login-button:disabled {
+    display: none;
+}
+
+.login-button {
+    margin: 1%;
+    min-width: 6em;
+}
+
+.username-display .hide {
+    display: none;
+}
+
+.input-alert {
+    margin-top: 2%;
+}
+
+
+/********** PROGRESS BAR **********/
+
+#progress-bar-container {
+    margin-bottom: 4%;
+}
+
+.leaf-progress {
+    height: 50px;
+}
+
+.leaf-progress > img {
+    height: 100%;
+    margin: 0 auto;
+}
+
+.unfinished-leaf-progress {
+    opacity: 0.4;
+}
+
+/********** IMAGES **********/
+
+img.space-bottom {
+    margin-bottom: 15px;
+}
+
+/*for icons in sidebar?*/
+/*    .icon {
+    width: 75px;
+}*/
+
+
+/********** BODY - ALL **********/
+
+.row-fluid {
+    /*width: 98%;*/
+    /*padding-left: 1%;*/
+    padding-top: 50px;
+}
+
+/* hide a row */
+.row-fluid .hidden {
+    /* TODO: this is a crude way of hiding right now and should be improved */
+    display: none;
+}
+
+
+/********** SPECIFIC PAGES **********/
+
+/* for fade in when geolocation is ready */
+#new-observation-btn {
+    opacity: 0;
+    text-align: center;
+}
+
+/***** first page *****/
+
+.first-page {
+    width: 100%;
+    max-width: 250px;
+    margin-top: 5%;
+}
+
+.first-page > button {
+    height: 55px;
+}
+
+.leaf-drop {
+    padding: 0;
+}
+
+/***** #leaf-1  tree species *****/
+
+.branch-letter-styles {
+    margin-left: 50px;
+}
+
+ul#tree-species-list {
+    height: 50vh;
+    /*overflow: scroll;*/
+}
+
+/*to make input & link/images full height of list element*/
+div.tree-species-styles,
+a.tree-species-styles,
+.wiki-link {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+div.tree-species-styles {
+    background: #f3f3f5;
+    border-right: solid #ddd 1px;
+    padding-left: 7%;
+}
+
+h4.tree-species-styles {
+    margin-bottom: 0;
+}
+
+p.tree-species-styles {
+    font-style: italic;
+}
+
+a.tree-species-styles {
+    border-left: solid #ddd 1px;
+}
+
+.wiki-link {
+    margin: auto;
+    width: 50%;
+}
+
+button.close {
+    font-size: 50px;
+    color: #555;
+    position: absolute;
+    top: 15px;
+    right: 40px;
+    z-index: 999;
+    opacity: 1;
+}
+
+/*trying to get rid of 'last edited' in wikipedia pop-up - use javascript?
+iframe div#mw-mf-last-modified.top-bar.truncated-text {
+    display: none !important;
+}*/
+
+/***** #leaf-3  leaf fallen *****/
+
+input[type=radio].leaf-fallen {
+    margin-right: 20px;
+    margin-left: 20%;
+    vertical-align: middle;
+}
+
+.fallen-title {
+    margin-top: 5%;
+}
+
+.btn-container {
+    width: 100%;
+    max-width: 150px;
+    display: block;
+}
+
+.btn-container:first-of-type {
+    margin-bottom: -20px;
+}
+
+.btn-container label {
+    font-size: 24px;
+    margin-top: 8px;
+}
+
+/***** #leaf-4  leaf dimensions *****/
+
+.leaf-measurement-input {
+    padding-left: 10px;
+}
+
+/***** #leaf-5  percentage leaf colored *****/
+
+.percent-leaf-img {
+    max-width: 80%;
+    height: auto;
+    margin: 0 auto;
+}
+
+/***** #leaf-6  additional field notes *****/
+
+.field-notes {
+    height: 40vh;
+}
+
+/***** #leaf-7  review data *****/
+
+.review-data-screen > .row > h3 {
+    margin-top: 0;
+}
+
+.data-list-item > h3 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.row > p:first-child,
+.row > p + p {
+    margin-bottom: 3px;
+}
+
+.row > p:last-child {
+    margin-bottom: 5px;
+}
+
+.align-top {
+    margin-top: 0;
+}
+
+
+/********** WEATHER SCREEN **********/
+
+#weather-screen {
+    background: url(../img/PVautumn.png) no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+    margin: 0;
+    width: 100%;
+}
+
+/*.iframe-container {
+    width: 100%;
+}*/
+
+#weather-screen .weather-image {
+    margin-top: 25px;
+    color: #333;
+}
+
+.temperature {
+    margin-top: 25px;
+    color: #333;
+}
+
+.temperature > p {
+    font-size: 5em;
+    font-weight: 400;
+}
+
+p.temp-f-container {
+    text-align: center;
+}
+
+p.weather-string {
+    font-size: 2.5em;
+    font-weight: 300;
+    text-align: center;
+}
+
+.weather {
+    background: rgba(51, 51, 51, 0.5);
+    color: #fff;
+    font-weight: 300;
+    font-size: 1.3em;
+    padding: 15px 30px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.weather img {
+    width: 15%;
+    margin-right: 20px;
+    display: inline-block;
+}
+
+.weather p {
+    display: inline-block;
+}
+
+.weather .row {
+    margin-bottom: 50px;
+}
+
+.weather .row:last-child {
+    margin-bottom: 0;
+}
+
+/********** MAP SCREEN **********/
+/*html & body properties suggested in https://developers.google.com/maps/documentation/javascript/tutorial;*/
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#map-screen {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#map-canvas {
+    height: 100vh;
+    width: 100%;
+    margin-bottom: -50px;
+}
+
+#pano {
+    height: 300px;
+    width: 100%;
+    background: #ccc;
+    z-index: 1;
+}
+
+.map-sidebar {
+    position: absolute;
+    top: 13%;
+    right: 50px;
+    z-index: 1;
+}
+
+.map-sidebar .row {
+    background: #fff;
+    border-radius: 10px;
+    margin-bottom: 5%;
+    padding: 15px 25px;
+}
+
+.map-sidebar .row:first-child {
+    padding: 15px 0 0 0;
+}
+
+.map-sidebar h3 {
+    margin-top: 0;
+    font-weight: 300;
+    font-size: 1.5em;
+}
+
+.map-sidebar p {
+    font-weight: 300;
+    font-size: 1.3em;
+}
+
+.streetview {
+    padding-left: 25px;
+}
+
+
+/* Extra small devices portrait (phones, less than 768px) */
+@media all and (max-width: 767px) and (orientation: portrait) {
+
+    .list-styles li:nth-of-type(2n) {
+        margin-left: 0;
+    }
+
+    input[type=text] {
+       width: 25%;
+    }
+
+    .branch-letter-styles {
+        margin-left: 25px;
+    }
+}
+
+/********** MEDIA QUERIES **********/
+/* Extra small devices landscape (phones, less than 768px) */
+@media handheld and (max-width: 767px) and (orientation: landscape) {
+
+    .first-page {
+        max-width: 100%;
+    }
+
+    .first-page img {
+        height: auto;
+        width: 30%;
+    }
+
+    .first-page > h1,
+    .first-page > img {
+        max-width: 45%;
+        display: inline-block;
+    }
+
+    .first-page > button {
+        max-width: 40%;
+        margin: 0 10px 20px 10px;
+        display: inline-block;
+    }
+
+    .leaf-drop {
+        vertical-align: middle;
+    }
+
+
+    .list-styles li:nth-of-type(2n) {
+        margin-left: 0;
+    }
+
+    .weather {
+        padding: 30px 15%;
+        font-size: 1.7em;
+    }
+
+}
+
+/* Small devices portrait (tablets, 768px and up) */
+@media all and (min-width: 768px) and (orientation: portrait) {
+
+/*    .bs-docs-sidebar {
+        margin-top: 20%;
+    }*/
+
+    .first-page {
+        margin-top: 25%;
+    }
+
+    .leaf-page {
+        min-height: 80vh;
+    }
+
+    #leaf-1 input[type=text] {
+        max-width: 50px;
+    }
+
+    ul#tree-species-list {
+        height: 61vh;
+    }
+
+    #progress-bar-container {
+        margin-bottom: 15%;
+    }
+
+    .fallen-title {
+        margin-top: 20%;
+    }
+
+    input[type=number] {
+       width: 45%;
+    }
+
+    /*#weather-screen .col-sm-2,*/
+    #weather-screen .col-sm-4:nth-child(2) {
+        margin-left: 0;
+    }
+
+    #weather-screen .weather-image {
+        margin-top: 15%;
+    }
+
+    #weather-screen .temperature {
+        margin-top: 20%;
+        padding: 0;
+    }
+
+    .temperature > p {
+        font-size: 7em;
+        padding-left: 5%;
+    }
+
+    p.weather-string {
+        font-size: 2.5em;
+    }
+
+    .weather {
+        margin-top: 15%;
+        margin-left: 25%;
+        width: 50%;
+        font-size: 2em;
+        padding: 30px 10%;
+    }
+
+}
+
+/* Small devices landscape(tablets, 768px and up) */
+@media all and (min-width: 768px) and (orientation: landscape) {
+
+    ul#tree-species-list {
+        height: 45vh;
+    }
+
+    .leaf-dimension {
+        max-width: 80%;
+        height: auto;
+        margin-left: 0;
+    }
+
+    /*#weather-screen .col-sm-2,*/
+    #weather-screen .col-sm-4 {
+        margin-left: 0;
+    }
+
+    #weather-screen .weather-image {
+        margin-top: 18%;
+    }
+
+    #weather-screen .temperature {
+        margin-top: 19%;
+        padding: 0;
+    }
+
+    .temperature > p {
+        font-size: 7em;
+        /*padding-left: 5%;*/
+    }
+
+    p.weather-string {
+        font-size: 4em;
+        /*padding-left: 15%;*/
+    }
+
+    .weather {
+        margin-top: 14%;
+        margin-left: 3%;
+        font-size: 1.3em;
+    }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media all and (min-width: 992px) {
+
+    ul#tree-species-list {
+        height: 50vh;
+    }
+
+    .fallen-title {
+        margin-top: 10%;
+    }
+
+    #weather-screen .weather-image {
+        margin-left: 5%;
+        margin-top: 13%;
+        max-height: 350px;
+    }
+
+    #weather-screen .temperature {
+        margin-top: 17%;
+        margin-left: -2%;
+        padding: 0 15px;
+    }
+
+    .weather {
+        margin-top: 12%;
+        font-size: 1.1em;
+    }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media all and (min-width: 1200px) {
+
+    .first-page {
+        margin-top: 10%;
+    }
+
+}
+
+
+
+
+
+
+
+
+/*@media all and (orientation:portrait){
+    .row-fluid {
+        display: none;
+    }
+
+    .navbar {
+        display: none;
+    }
+
+    .orientation-warning {
+        text-align: center;
+        font-size: 2em;
+        margin-top: 25%;
+    }
+}
+
+@media (max-width: 980px) {
+    .row-fluid {
+        padding-top: 0px;
+    }
+}
+
+*/
+
+
+/* chat bubble styles REMOVE ME?*/
+
+.others {
+    color: white;
+}
+
+.me {
+    color: black;
+}
+
+.others {
+    float: right;
+    position: relative;
+    padding: 15px;
+    margin: 1em 0 3em;
+    background: #2980b9;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.others:after {
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    right: 50px;
+    border-width: 15px 15px 0;
+    border-style: solid;
+    border-color: #2980b9 transparent;
+    display: block;
+    width: 0;
+}
+
+.me {
+    float: left;
+    position: relative;
+    padding: 15px;
+    margin: 1em 0 3em;
+    background: #95a5a6;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.me:after {
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    left: 50px;
+    border-width: 15px 15px 0;
+    border-style: solid;
+    border-color: #95a5a6 transparent;
+    display: block;
+    width: 0;
+}
+
+.note-text p {
+    margin: 0;
+}
