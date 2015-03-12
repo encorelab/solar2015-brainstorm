@@ -592,7 +592,6 @@
 
   app.autoSave = function(model, inputKey, inputValue, instantSave) {
     app.keyCount++;
-
     if (instantSave || app.keyCount > 9) {
       console.log('Saved');
       model.set(inputKey, inputValue);

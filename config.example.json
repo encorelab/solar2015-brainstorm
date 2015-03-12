@@ -4,8 +4,8 @@
         "url_dev": "http://localhost:9292",
         "db": "solar2015",
         "uic_url": "http://ltg.evl.uic.edu:9292",
-        "username":"encorelab",
-        "password":"encorepw"
+        "username":"foo",
+        "password":"bar"
     },
     "wakeful": {
         "url": "https://coati.encorelab.org/faye",
