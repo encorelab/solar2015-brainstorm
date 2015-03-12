@@ -25,7 +25,7 @@
   Skeletor.Model = (function() {
     function Model() {}
 
-    Model.requiredCollections = ['brainstorms', 'observations'];
+    Model.requiredCollections = ['brainstorms', 'observations', 'states'];
 
     Model.init = function(url, db) {
       var dfrInit,
@@ -93,7 +93,7 @@
     };
 
     Model.defineModelClasses = function() {
-      /** LeafDropObservation **/
+      /** Brainstorm **/
 
       this.Brainstorm = this.db.Document('brainstorms').extend({
         defaults: {
@@ -110,7 +110,7 @@
       });
 
 
-      /** SalamanderWatchObservation **/
+      /** Observation **/
 
       this.Observation = this.db.Document('observations').extend({
         defaults: {
@@ -126,13 +126,15 @@
         model: Skeletor.Model.SalamanderWatchObservation
       });
 
-      // TODO: do custom setting for data {}
-      // var MyModel = Backbone.Model.extend({
-      //     set: function(attributes, options) {
-      //         // Custom code...
-      //         return Backbone.Model.prototype.set.call(this, attributes, options);
-      //     }
-      // });
+
+      /** State **/
+
+      this.State = this.db.Document('states').extend({
+      });
+
+      this.States = this.db.Collection('states').extend({
+        model: Skeletor.Model.State
+      });
     };
 
     Model.wake = function(wakefulUrl) {
