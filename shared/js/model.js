@@ -25,7 +25,7 @@
   Skeletor.Model = (function() {
     function Model() {}
 
-    Model.requiredCollections = ['leaf_drop_observations', 'salamander_watch_observations'];
+    Model.requiredCollections = ['brainstorms', 'observations', 'states'];
 
     Model.init = function(url, db) {
       var dfrInit,
@@ -93,44 +93,48 @@
     };
 
     Model.defineModelClasses = function() {
-      /** LeafDropObservation **/
+      /** Brainstorm **/
 
-      this.LeafDropObservation = this.db.Document('leaf_drop_observations').extend({
+      this.Brainstorm = this.db.Document('brainstorms').extend({
         defaults: {
           'created_at': new Date(),
           'modified_at': new Date(),
-          'author': Skeletor.Mobile.username,
+          // Not possible since Smartboard is not in this namespace
+          //'author': Skeletor.Mobile.username,
           'leaves': []
         }
       });
 
-      this.LeafDropObservations = this.db.Collection('leaf_drop_observations').extend({
+      this.Brainstorms = this.db.Collection('brainstorms').extend({
         model: Skeletor.Model.LeafDropObservation
       });
 
 
-      /** SalamanderWatchObservation **/
+      /** Observation **/
 
-      this.SalamanderWatchObservation = this.db.Document('salamander_watch_observations').extend({
+      this.Observation = this.db.Document('observations').extend({
         defaults: {
           'created_at': new Date(),
           'modified_at': new Date(),
-          'author': Skeletor.Mobile.username,
+          // Not possible since Smartboard is not in this namespace
+          // 'author': Skeletor.Mobile.username,
           'published': false
         }
       });
 
-      this.SalamanderWatchObservations = this.db.Collection('salamander_watch_observations').extend({
+      this.Observations = this.db.Collection('observations').extend({
         model: Skeletor.Model.SalamanderWatchObservation
       });
 
-      // TODO: do custom setting for data {}
-      // var MyModel = Backbone.Model.extend({
-      //     set: function(attributes, options) {
-      //         // Custom code...
-      //         return Backbone.Model.prototype.set.call(this, attributes, options);
-      //     }
-      // });
+
+      /** State **/
+
+      this.State = this.db.Document('states').extend({
+      });
+
+      this.States = this.db.Collection('states').extend({
+        model: Skeletor.Model.State
+      });
     };
 
     Model.wake = function(wakefulUrl) {

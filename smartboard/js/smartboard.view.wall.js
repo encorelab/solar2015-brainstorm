@@ -18,22 +18,22 @@
 
       this.balloons = {};
 
-      Skeletor.Model.awake.notes.on('add', function(n) {
+      Skeletor.Model.awake.brainstorms.on('add', function(n) {
         wall.registerBalloon(n, Smartboard.View.NoteBalloon, wall.balloons);
       });
-      Skeletor.Model.awake.notes.each(function(n) {
+      Skeletor.Model.awake.brainstorms.each(function(n) {
         wall.registerBalloon(n, Smartboard.View.NoteBalloon, wall.balloons);
       });
 
-      Skeletor.Model.awake.tags.on('add', function(t) {
-        wall.registerBalloon(t, Smartboard.View.TagBalloon, wall.balloons);
-      });
-      Skeletor.Model.awake.tags.each(function(t) {
-        wall.registerBalloon(t, Smartboard.View.TagBalloon, wall.balloons);
-      });
-      Skeletor.Model.awake.tags.each(function(t) {
-        wall.balloons[t.id].renderConnectors();
-      });
+      // Skeletor.Model.awake.tags.on('add', function(t) {
+      //   wall.registerBalloon(t, Smartboard.View.TagBalloon, wall.balloons);
+      // });
+      // Skeletor.Model.awake.tags.each(function(t) {
+      //   wall.registerBalloon(t, Smartboard.View.TagBalloon, wall.balloons);
+      // });
+      // Skeletor.Model.awake.tags.each(function(t) {
+      //   wall.balloons[t.id].renderConnectors();
+      // });
     },
 
     events: {

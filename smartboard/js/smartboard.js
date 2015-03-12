@@ -16,7 +16,6 @@
       wakeful: {
         url: 'string'
       },
-      rollcall: {db: 'string'},
       login_picker:'boolean',
       runs:'object'
     };
@@ -27,9 +26,21 @@
 
     // TODO: Pick run id
     var app = {};
-    app.runId = "5ag";
+    app.runId = "ben";
     // TODO: should ask at startup
     var DATABASE = smartboard.config.drowsy.db+'-'+app.runId;
+
+
+    // Adding BasicAuth to the XHR header in order to authenticate with drowsy database
+    // this is not really big security but a start
+    var basicAuthHash = btoa(smartboard.config.drowsy.username + ':' + smartboard.config.drowsy.password);
+    Backbone.$.ajaxSetup({
+      beforeSend: function(xhr) {
+        return xhr.setRequestHeader('Authorization',
+            // 'Basic ' + btoa(username + ':' + password));
+            'Basic ' + basicAuthHash);
+      }
+    });
 
     Skeletor.Model.init(smartboard.config.drowsy.url, DATABASE)
     .then(function () {
