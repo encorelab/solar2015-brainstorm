@@ -25,7 +25,7 @@
   Skeletor.Model = (function() {
     function Model() {}
 
-    Model.requiredCollections = ['leaf_drop_observations', 'salamander_watch_observations'];
+    Model.requiredCollections = ['brainstorms', 'observations'];
 
     Model.init = function(url, db) {
       var dfrInit,
@@ -95,32 +95,34 @@
     Model.defineModelClasses = function() {
       /** LeafDropObservation **/
 
-      this.LeafDropObservation = this.db.Document('leaf_drop_observations').extend({
+      this.Brainstorm = this.db.Document('brainstorms').extend({
         defaults: {
           'created_at': new Date(),
           'modified_at': new Date(),
-          'author': Skeletor.Mobile.username,
+          // Not possible since Smartboard is not in this namespace
+          //'author': Skeletor.Mobile.username,
           'leaves': []
         }
       });
 
-      this.LeafDropObservations = this.db.Collection('leaf_drop_observations').extend({
+      this.Brainstorms = this.db.Collection('brainstorms').extend({
         model: Skeletor.Model.LeafDropObservation
       });
 
 
       /** SalamanderWatchObservation **/
 
-      this.SalamanderWatchObservation = this.db.Document('salamander_watch_observations').extend({
+      this.Observation = this.db.Document('observations').extend({
         defaults: {
           'created_at': new Date(),
           'modified_at': new Date(),
-          'author': Skeletor.Mobile.username,
+          // Not possible since Smartboard is not in this namespace
+          // 'author': Skeletor.Mobile.username,
           'published': false
         }
       });
 
-      this.SalamanderWatchObservations = this.db.Collection('salamander_watch_observations').extend({
+      this.Observations = this.db.Collection('observations').extend({
         model: Skeletor.Model.SalamanderWatchObservation
       });
 
