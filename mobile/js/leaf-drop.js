@@ -580,9 +580,6 @@
         var clickedUserName = jQuery(this).val();
         app.loginUser(clickedUserName);
       });
-
-      // show modal dialog
-      // jQuery('#login-picker').modal({backdrop: 'static'});
     });
   };
 
@@ -595,30 +592,13 @@
 
   app.autoSave = function(model, inputKey, inputValue, instantSave) {
     app.keyCount++;
-    //console.log("  saving stuff as we go at", app.keyCount);
 
-    // if (model.kind === 'buildOn') {
-    //   if (instantSave || app.keyCount > 9) {
-    //     // save to buildOn model to stay current with view
-    //     // app.buildOn = inputValue;
-    //     // save to contribution model so that it actually saves
-    //     // var buildOnArray = app.contribution.get('build_ons');
-    //     // var buildOnToUpdate = _.find(buildOnArray, function(b) {
-    //     //   return b.author === app.userData.account.login && b.published === false;
-    //     // });
-    //     // buildOnToUpdate.content = inputValue;
-    //     // app.contribution.set('build_ons',buildOnArray);
-    //     // app.contribution.save(null, {silent:true});
-    //     // app.keyCount = 0;
-    //   }
-    // } else {
-      if (instantSave || app.keyCount > 9) {
-        console.log('Saved');
-        model.set(inputKey, inputValue);
-        model.save(null, {silent:true});
-        app.keyCount = 0;
-      }
-    //}
+    if (instantSave || app.keyCount > 9) {
+      console.log('Saved');
+      model.set(inputKey, inputValue);
+      model.save(null, {silent:true});
+      app.keyCount = 0;
+    }
   };
 
 
