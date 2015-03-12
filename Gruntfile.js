@@ -8,7 +8,7 @@ module.exports = function(grunt) {
     },
     jsonlint: {
       dev: {
-        src: ['./*.json' ,'./leaf-drop/bootstrap/*.json']
+        src: ['./*.json']
       }
     }
   });
