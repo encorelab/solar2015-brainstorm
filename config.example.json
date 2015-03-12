@@ -3,7 +3,6 @@
         "url": "https://drowsy.badger.encorelab.org",
         "url_dev": "http://localhost:9292",
         "db": "solar2015",
-        "uic_url": "http://ltg.evl.uic.edu:9292",
         "username":"foo",
         "password":"bar"
     },

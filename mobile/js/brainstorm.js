@@ -14,7 +14,6 @@
     drowsy: {
       url: 'string',
       db: 'string',
-      uic_url: 'string',
       username: 'string',
       password: 'string'
     },
@@ -25,36 +24,15 @@
     runs:'object'
   };
 
+  var DATABASE = null;
+
   app.rollcall = null;
   app.runId= null;
-  app.users = null; // users collection
+  app.users = null;
   app.username = null;
 
-  var DATABASE = null;
-  app.stateData = null;
-
-  app.currentObservation = null;
-
-  app.treeSpeciesCollection = null;
-
-  app.weatherConditions = null;
-  app.weatherForecast = null;
-
-  app.mapData = null;
-  app.map = null;
-  app.mapPosition = null;
-  app.mapMarker = null;
-  app.mapElevation = null;
-  //google.maps = null;         // TODO: look into me, where am I created?
-
-  app.listView = null;
-  app.collectView = null;
-  app.treeSpeciesView = null;
-  app.reviewDataView = null;
-  app.weatherView = null;
-  app.mapView = null;
-
-  // app.loginButtonsView = null;
+  app.readView = null;
+  app.writeView = null;
 
   app.keyCount = 0;
   app.autoSaveTimer = window.setTimeout(function() { } ,10);
@@ -86,21 +64,9 @@
     }
 
     app.handleLogin();
-
   };
 
   app.handleLogin = function () {
-
-    // if (jQuery.QueryString.runId && jQuery.QueryString.username) {
-    //   console.log ("URL parameter correct :)");
-    //   app.runId = jQuery.QueryString.runId;
-    //   app.username = jQuery.QueryString.username;
-    // } else {
-    //   // retrieve user name from cookie if possible otherwise ask user to choose name
-    //   app.runId = jQuery.cookie('hunger-games_mobile_runId');
-    //   app.username = jQuery.cookie('hunger-games_mobile_username');
-    // }
-
     if (jQuery.url().param('runId') && jQuery.url().param('username')) {
       console.log ("URL parameter correct :)");
       app.runId = jQuery.url().param('runId');
@@ -171,51 +137,24 @@
   };
 
   app.setup = function() {
-    /*
-      In order to get set up, we need to:
-        1: pull users
-        2: initialize the model and wake it up
-        3: pull mgaps data, and use that locational information to:
-          a: pull current weather data
-          b: pull forecast weather data
-        4: pull static data
-        5: call ready(), which setups the views - should we rename this?
-        6: setUpClickListeners() - which depends on 1 and 2 (and 5?)
-        7: wireUpViews()
-
-      I think, how we want to do this, we do the following concurrently:
-      1->2->4->5->6->7
-      and
-      3->3a->7
-       ->3b->
-    */
     Skeletor.Model.init(app.config.drowsy.url, DATABASE)
     .then(function () {
       console.log('Model initialized - now waking up');
       return Skeletor.Model.wake(app.config.wakeful.url);
     })
     .done(function () {
-      console.log('Model awake - now calling ready');
-      grabMapData();
-      grabStaticData();
-    });
-  };
-
-  var grabStaticData = function() {
-    jQuery.get(app.config.drowsy.url+"/"+DATABASE+"/leaf_drop_tree_species", function( data ) {
-      app.treeSpeciesCollection = data;
       ready();
+      console.log('Model awake - now calling ready');
     });
   };
 
-  // this implies that we are "ready" when this function is complete (not that this function is waiting on us to be ready). Might not be great, semantically
   var ready = function() {
     setupUI();
     setUpClickListeners();
-    wireUpViews("collectView");
+    wireUpViews("readView");
 
     // show the first screen
-    jQuery('#collect-screen').removeClass('hidden');
+    jQuery('#read-screen').removeClass('hidden');
   };
 
   var setupUI = function() {
@@ -224,7 +163,7 @@
       position : 'middle-center'
     });
 
-    jQuery('.brand').text("Leaf Drop");
+    jQuery('.brand').text("Brainstorm");
   };
 
   var setUpClickListeners = function () {
@@ -232,138 +171,6 @@
     jQuery('#logout-user').click(function() {
       logoutUser();
     });
-
-    /* Buttons that manage the navigation */
-    jQuery('.nav-btn').click(function() {
-      if (app.username) {
-        jQuery('.navigation li').removeClass('active'); // unmark all nav items
-        jQuery(this).addClass('active');
-        app.hideAllContainers();
-        if (jQuery(this).attr('id') === 'collect-nav-btn') {
-          jQuery('#collect-screen').removeClass('hidden');
-        } else if (jQuery(this).attr('id') === 'weather-nav-btn') {
-          jQuery('#weather-screen').removeClass('hidden');
-          app.weatherView.render();
-        } else if (jQuery(this).attr('id') === 'map-nav-btn') {
-          jQuery('#map-screen').removeClass('hidden');
-          google.maps.event.trigger(app.map,'resize');
-          app.mapView.render();
-        } else {
-          console.log('ERROR: unknown nav button');
-        }
-      }
-    });
-  };
-
-  var grabMapData = function() {
-    // grab data from google maps API
-    // this structure assumes the user is not moving around during the observation - is this a safe assumption?
-
-    function initializeMap() {
-      var mapOptions = {
-        zoom: 16,
-        scrollwheel: false,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
-      var mapElement = jQuery('#map-canvas')[0];
-
-      app.map = new google.maps.Map(mapElement, mapOptions);
-
-      // Try HTML5 geolocation
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
-          app.mapPosition = position.coords;
-          app.mapMarker = new google.maps.Marker({
-            map: app.map,
-            position: pos,
-            animation: google.maps.Animation.DROP,
-            title: 'You are here.'
-          });
-
-
-          // ************* ELEVATION *************
-          // this may not be the right way to do this. Feels very clunky
-          var elevator = new google.maps.ElevationService();
-          // this array nonsense because this service is set up to take multiple values
-          var locations = [];
-          locations.push(pos);
-          var positionalRequest = {
-            'locations': locations
-          };
-          // we now have an array of 1 location (lat/lng google object)
-
-          elevator.getElevationForLocations(positionalRequest, function(results, status) {
-            // success
-            if (status === google.maps.ElevationStatus.OK) {
-              if (results[0]) {
-                app.mapElevation = results[0].elevation;
-
-                // now we can enable the map nav button and can start on grabbing the weather data
-                wireUpViews("mapView");
-
-                var deferredConditions = app.grabWeatherConditions();
-                var deferredForecast = app.grabWeatherForecast();
-
-                jQuery.when(deferredConditions, deferredForecast).then(wireUpViews("weatherView"));
-              }
-            }
-            // failure
-            else {
-              console.log("Elevator crashed into the ground");
-            }
-          });
-
-        }, function() {
-          // couldn't get geolocation
-          handleNoGeolocation(true);
-        });
-      } else {
-        // browser doesn't support geolocation
-        handleNoGeolocation(false);
-      }
-    }
-
-    function handleNoGeolocation(errorFlag) {
-      var content;
-      if (errorFlag) {
-        content = 'Error: The geolocation service failed.';
-      } else {
-        content = 'Error: Your browser doesn\'t support geolocation.';
-      }
-
-      var options = {
-        map: app.map,
-        // if geolocation is not available the default map that shows up is of Amherst, MA
-        position: new google.maps.LatLng(42.3670, -72.5170),
-        content: content        // how is this var used? It never shows up, so the user doesn't know what's going on... TODO
-      };
-
-      var infowindow = new google.maps.InfoWindow(options);
-      app.map.setCenter(options.position);
-    }
-    google.maps.event.addDomListener(window, 'load', initializeMap());
-  };
-
-  app.grabWeatherConditions = function() {
-    var deferred = jQuery.ajax({
-      url: "http://api.wunderground.com/api/3fb52372e8662ab2/geolookup/conditions/q/"+app.mapPosition.latitude+","+app.mapPosition.longitude+".json",
-      dataType : "jsonp"
-    }).then(function(response){
-      app.weatherConditions = response.current_observation;
-    });
-    return deferred;
-  };
-
-  app.grabWeatherForecast = function() {
-    var deferred = jQuery.ajax({
-      url: "http://api.wunderground.com/api/3fb52372e8662ab2/geolookup/forecast/q/"+app.mapPosition.latitude+","+app.mapPosition.longitude+".json",
-      dataType : "jsonp"
-    }).then(function(response){
-      app.weatherForecast = response.forecast;
-    });
-    return deferred;
   };
 
 
@@ -376,53 +183,22 @@
      * ======================================================
      */
 
-    if (view === "collectView") {
-      if (app.collectView === null) {
-        app.collectView = new app.View.CollectView({
-          el: '#collect-screen',
-          collection: Skeletor.Model.awake.leaf_drop_observations
+    if (view === "readView") {
+      if (app.readView === null) {
+        app.readView = new app.View.ReadView({
+          el: '#read-screen',
+          collection: Skeletor.Model.awake.contributions
         });
       }
-
-      if (app.treeSpeciesView === null) {
-        app.treeSpeciesView = new app.View.TreeSpeciesView({
-          el: '.tree-species-screen',
-          collection: app.treeSpeciesCollection
-        });
-      }
-
-      if (app.reviewDataView === null) {
-        app.reviewDataView = new app.View.ReviewDataView({
-          el: '.review-data-screen',
-          collection: Skeletor.Model.awake.leaf_drop_observations       // switch this collection to something or nothing
-        });
-      }
-
-      jQuery('.nav-btn#collect-nav-btn').removeClass('disabled');
     }
 
-    if (view === "weatherView") {
-      if (app.weatherView === null) {
-        app.weatherView = new app.View.WeatherView({
-          el: '#weather-screen'
-        });
-      }
-
-      jQuery('.nav-btn#weather-nav-btn').removeClass('disabled');
-    }
-
-    if (view === "mapView") {
-      if (app.mapView === null) {
-        app.mapView = new app.View.MapView({
+    if (view === "writeView") {
+      if (app.writeView === null) {
+        app.writeView = new app.View.WriteView({
           el: '#map-screen',
           collection: Skeletor.Model.awake.leaf_drop_observations
         });
       }
-
-      jQuery('.nav-btn#map-nav-btn').removeClass('disabled');
-
-      // this button shouldn't be clicked until we have location, so tied to mapView
-      jQuery("#new-observation-btn").animate({"opacity": "1"}, 700);
     }
   };
 
