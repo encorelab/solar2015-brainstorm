@@ -97,8 +97,8 @@
         defaults: {
           'created_at': new Date(),
           'modified_at': new Date(),
-          // Not possible since Smartboard is not in this namespace
-          //'author': Skeletor.Mobile.username
+          'author': Skeletor.Mobile.username,
+          'published': false
         }
       });
 

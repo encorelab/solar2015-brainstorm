@@ -368,14 +368,19 @@
     });
   };
 
-
   app.autoSave = function(model, inputKey, inputValue, instantSave) {
     app.keyCount++;
     if (instantSave || app.keyCount > 9) {
-      console.log('Saved');
+      console.log('Brainstorm saved...');
       model.set(inputKey, inputValue);
       model.save(null, {silent:true});
       app.keyCount = 0;
+    }
+  };
+
+  app.clearAutoSaveTimer = function () {
+    if (app.autoSaveTimer) {
+      window.clearTimeout(app.autoSaveTimer);
     }
   };
 

@@ -14,38 +14,93 @@
     WriteView
   **/
   app.View.WriteView = Backbone.View.extend({
-    view: this,
-    template: "#resume-unpublished-notes",
-
     initialize: function() {
       var view = this;
       console.log('Initializing WriteView...', view.el);
+
+      var brainstormToResume = view.collection.findWhere({author: app.username, published: false});
+      if (brainstormToResume) {
+        view.setupResumedBrainstorm(brainstormToResume);
+      }
     },
 
     events: {
-      'click #nav-read-btn'         : "switchToReadView",
-      // 'click .resume-note-btn'   : "resumeNote",
-      // 'click .new-note-btn'      : 'showNewNote',
-      // 'click .modal-select-note' : 'selectNoteToResume',
-      // 'click .cancel-note-btn'   : 'cancelNote',
-      'click #share-brainstorm-btn' : 'shareBrainstorm',
+      'click #nav-read-btn'               : 'switchToReadView',
+      'click #cancel-brainstorm-btn'      : 'cancelBrainstorm',
+      'click #publish-brainstorm-btn'     : 'publishBrainstorm',
+      'click #brainstorm-title-input'     : 'checkToAddNewBrainstorm',
+      'click #brainstorm-body-input'      : 'checkToAddNewBrainstorm',
+      'keyup :input'                      : 'checkForAutoSave'
+    },
 
-      'keyup :input': function(ev) {
-        var view = this,
+    setupResumedBrainstorm: function(brainstorm) {
+      var view = this;
+
+      view.model = brainstorm;
+      jQuery('#brainstorm-title-input').val(brainstorm.get('title'));
+      jQuery('#brainstorm-body-input').val(brainstorm.get('body'));
+    },
+
+    // does it make more sense to put this in the initialize? (and then also in the publish and cancel?)
+    checkToAddNewBrainstorm: function() {
+      var view = this;
+
+      // if there is no model yet
+      if (!view.model) {
+        // create a brainstorm object
+        view.model = new Model.Brainstorm();
+        view.model.wake(app.config.wakeful.url);
+        view.model.save();
+        view.collection.add(view.model);
+      }
+    },
+
+    checkForAutoSave: function(ev) {
+      var view = this,
           field = ev.target.name,
           input = ev.target.value;
-        // clear timer on keyup so that a save doesn't happen while typing
-        window.clearTimeout(app.autoSaveTimer);
+      // clear timer on keyup so that a save doesn't happen while typing
+      app.clearAutoSaveTimer();
 
-        // save after 10 keystrokes
-        app.autoSave(view.model, field, input, false);
+      // save after 10 keystrokes
+      app.autoSave(view.model, field, input, false);
 
-        // setting up a timer so that if we stop typing we save stuff after 5 seconds
-        app.autoSaveTimer = setTimeout(function(){
-          app.autoSave(view.model, field, input, true);
-        }, 5000);
+      // setting up a timer so that if we stop typing we save stuff after 5 seconds
+      app.autoSaveTimer = setTimeout(function(){
+        app.autoSave(view.model, field, input, true);
+      }, 5000);
+    },
 
-        // TODO: full cleanup on this, based on hampshire changes (see brainstorm.js autosave as well)
+    cancelBrainstorm: function() {
+      var view = this;
+
+      // TODO: get this to work, much cleaner - view.model.destroy();   has this been correctly implemented with this version of wakeful?
+      // this doesn't actually cancel a note, if just sets it to blank. Could be relevantly different in some cases
+      view.model.set('title','');
+      view.model.set('body','');
+      view.model.save();
+      jQuery('.input-field').val('');
+    },
+
+    publishBrainstorm: function() {
+      var view = this;
+      var title = jQuery('#brainstorm-title-input').val();
+      var body = jQuery('#brainstorm-body-input').val();
+
+      if (title.length > 0 && body.length > 0) {
+        app.clearAutoSaveTimer();
+        view.model.set('title',title);
+        view.model.set('body',body);
+        view.model.set('published', true);
+        view.model.set('modified_at', new Date());
+        view.model.save();
+        jQuery().toastmessage('showSuccessToast', "Your brainstorm contribution has been submitted!");
+
+        // BOOOO - let's get destroy working please
+        view.model = null;
+        jQuery('.input-field').val('');
+      } else {
+        jQuery().toastmessage('showErrorToast', "You need to complete both fields to submit your brainstorm...");
       }
     },
 
@@ -54,129 +109,8 @@
       jQuery('#read-screen').removeClass('hidden');
     },
 
-    // resumeNote: function(){
-    //   var view = this;
-
-    //   // retrieve unpublished notes of user
-    //   var notesToRestore = view.collection.where({author: app.username, published: false});
-
-    //   // fill the modal
-    //   jQuery('#select-note-modal').html('');
-    //   _.each(notesToRestore, function(note){
-    //     // Fix to work with Underscore > 1.7.0 http://stackoverflow.com/questions/25881041/backbone-js-template-example
-    //     // var option = _.template(jQuery(view.template).text(), {'option_text': note.get('body'), id: note.id});
-    //     var optionTemplate = _.template(jQuery(view.template).text());
-    //     var option = optionTemplate({'option_text': note.get('body'), id: note.id});
-    //     jQuery('#select-note-modal').append(option);
-    //   });
-
-    //   //show modal
-    //   console.log('Show modal to pick previous note.');
-    //   jQuery('.unpublished-note-picker').modal('show');
-    // },
-
-    // showNewNote: function() {
-    //   var view = this;
-    //   console.log('Starting new note.');
-
-    //   // create an note object
-    //   var note = {};
-    //   note.author = app.username;
-    //   note.created_at = new Date();
-    //   note.body = '';
-    //   note.published = false;
-
-    //   // make note wakeful and add it to notes collection
-    //   view.model = app.addNote(note);
-
-    //   // Clear text input field
-    //   this.$el.find('.note-body').val('');
-
-    //   jQuery('.note-taking-toggle').slideDown();
-    //   jQuery('.resume-note-btn, .new-note-btn').attr('disabled', 'disabled');
-    // },
-
-    // cancelNote: function() {
-    //   console.log("Cancelling note and hiding textarea.");
-    //   // Hide textarea
-    //   jQuery('.note-taking-toggle').slideUp();
-    //   jQuery('.resume-note-btn, .new-note-btn').removeAttr('disabled', 'disabled');
-    // },
-
-    // selectNoteToResume: function(ev){
-    //   var view = this;
-    //   console.log('Select a note.');
-
-    //   var selectedOption = jQuery('#select-note-modal').find(":selected");
-    //   // children()[jQuery('#select-note-modal').index()];
-    //   // retrieve id of selectd note
-    //   var selectedNoteId = jQuery(selectedOption).data('id');
-    //   app.currentNote = view.collection.findWhere({_id: selectedNoteId});
-
-    //   // Clear text input field
-    //   this.$el.find('.note-body').val('');
-
-    //   this.$el.find('.note-body').val(app.currentNote.get('body'));
-
-    //   jQuery('.unpublished-note-picker').modal('hide');
-    //   jQuery('.note-taking-toggle').slideDown();
-    //   jQuery('.resume-note-btn, .new-note-btn').attr('disabled', 'disabled');
-    // },
-
-    // createOrRestoreNote: function(ev) {
-    //   // alert('createNewNote: want me to do stuff, teach me');
-    //   var view = this;
-
-    //   var noteToRestore = view.collection.findWhere({author: app.username, published: false});
-    //   if (noteToRestore) {
-    //     app.currentNote = noteToRestore;
-    //     this.$el.find('.note-body').val(app.currentNote.get('body'));
-    //   } else {
-    //     // no unpublished note, so we create a new note
-    //     var note = {};
-    //     note.author = app.username;
-    //     note.created_at = new Date();
-    //     note.body = '';
-    //     note.published = false;
-
-    //     app.addNote(note);
-    //   }
-    // },
-
-    shareBrainstorm: function() {
-      var view = this;
-
-      view.model.set('body', this.$el.find('.note-body').val());
-      view.model.set('published', true);
-
-      view.model.save();
-
-      // clearing up
-      this.$el.find('.note-body').val('');
-      // turn off auto save
-      window.clearTimeout(app.autoSaveTimer);
-      view.model = null;
-      jQuery('.note-taking-toggle').slideUp();
-      jQuery('.resume-note-btn, .new-note-btn').removeAttr('disabled', 'disabled');
-    },
-
-    // autosaveNote: function(ev) {
-    //   var field = ev.target.name,
-    //       input = jQuery('#'+ev.target.id).val();
-    //   // clear timer on keyup so that a save doesn't happen while typing
-    //   window.clearTimeout(app.autoSaveTimer);
-
-    //   // save after 10 keystrokes
-    //   app.autoSave(view.model, field, input, false);
-
-    //   // setting up a timer so that if we stop typing we save stuff after 5 seconds
-    //   app.autoSaveTimer = setTimeout(function(){
-    //     app.autoSave(view.model, field, input, true);
-    //   }, 5000);
-    // },
-
     render: function () {
-      console.log('Rendering WriteView...');
+      console.log("Rendering WriteView...");
     }
   });
 
