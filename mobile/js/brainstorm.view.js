@@ -23,12 +23,13 @@
     },
 
     events: {
-      'click .resume-note-btn'   : "resumeNote",
-      'click .new-note-btn'      : 'showNewNote',
-      'click .modal-select-note' : 'selectNoteToResume',
-      'click .cancel-note-btn'   : 'cancelNote',
-      'click .share-note-btn'    : 'shareNote',
-      //'click .note-body'         : 'createOrRestoreNote',
+      'click #nav-read-btn'         : "switchToReadView",
+      // 'click .resume-note-btn'   : "resumeNote",
+      // 'click .new-note-btn'      : 'showNewNote',
+      // 'click .modal-select-note' : 'selectNoteToResume',
+      // 'click .cancel-note-btn'   : 'cancelNote',
+      'click #share-brainstorm-btn' : 'shareBrainstorm',
+
       'keyup :input': function(ev) {
         var view = this,
           field = ev.target.name,
@@ -43,77 +44,84 @@
         app.autoSaveTimer = setTimeout(function(){
           app.autoSave(view.model, field, input, true);
         }, 5000);
+
+        // TODO: full cleanup on this, based on hampshire changes (see brainstorm.js autosave as well)
       }
     },
 
-    resumeNote: function(){
-      var view = this;
-
-      // retrieve unpublished notes of user
-      var notesToRestore = view.collection.where({author: app.username, published: false});
-
-      // fill the modal
-      jQuery('#select-note-modal').html('');
-      _.each(notesToRestore, function(note){
-        // Fix to work with Underscore > 1.7.0 http://stackoverflow.com/questions/25881041/backbone-js-template-example
-        // var option = _.template(jQuery(view.template).text(), {'option_text': note.get('body'), id: note.id});
-        var optionTemplate = _.template(jQuery(view.template).text());
-        var option = optionTemplate({'option_text': note.get('body'), id: note.id});
-        jQuery('#select-note-modal').append(option);
-      });
-
-      //show modal
-      console.log('Show modal to pick previous note.');
-      jQuery('.unpublished-note-picker').modal('show');
+    switchToReadView: function() {
+      app.hideAllContainers();
+      jQuery('#read-screen').removeClass('hidden');
     },
 
-    showNewNote: function() {
-      var view = this;
-      console.log('Starting new note.');
+    // resumeNote: function(){
+    //   var view = this;
 
-      // create an note object
-      var note = {};
-      note.author = app.username;
-      note.created_at = new Date();
-      note.body = '';
-      note.published = false;
+    //   // retrieve unpublished notes of user
+    //   var notesToRestore = view.collection.where({author: app.username, published: false});
 
-      // make note wakeful and add it to notes collection
-      view.model = app.addNote(note);
+    //   // fill the modal
+    //   jQuery('#select-note-modal').html('');
+    //   _.each(notesToRestore, function(note){
+    //     // Fix to work with Underscore > 1.7.0 http://stackoverflow.com/questions/25881041/backbone-js-template-example
+    //     // var option = _.template(jQuery(view.template).text(), {'option_text': note.get('body'), id: note.id});
+    //     var optionTemplate = _.template(jQuery(view.template).text());
+    //     var option = optionTemplate({'option_text': note.get('body'), id: note.id});
+    //     jQuery('#select-note-modal').append(option);
+    //   });
 
-      // Clear text input field
-      this.$el.find('.note-body').val('');
+    //   //show modal
+    //   console.log('Show modal to pick previous note.');
+    //   jQuery('.unpublished-note-picker').modal('show');
+    // },
 
-      jQuery('.note-taking-toggle').slideDown();
-      jQuery('.resume-note-btn, .new-note-btn').attr('disabled', 'disabled');
-    },
+    // showNewNote: function() {
+    //   var view = this;
+    //   console.log('Starting new note.');
 
-    cancelNote: function() {
-      console.log("Cancelling note and hiding textarea.");
-      // Hide textarea
-      jQuery('.note-taking-toggle').slideUp();
-      jQuery('.resume-note-btn, .new-note-btn').removeAttr('disabled', 'disabled');
-    },
+    //   // create an note object
+    //   var note = {};
+    //   note.author = app.username;
+    //   note.created_at = new Date();
+    //   note.body = '';
+    //   note.published = false;
 
-    selectNoteToResume: function(ev){
-      var view = this;
-      console.log('Select a note.');
+    //   // make note wakeful and add it to notes collection
+    //   view.model = app.addNote(note);
 
-      var selectedOption = jQuery('#select-note-modal').find(":selected");
-      // children()[jQuery('#select-note-modal').index()];
-      // retrieve id of selectd note
-      var selectedNoteId = jQuery(selectedOption).data('id');
-      app.currentNote = view.collection.findWhere({_id: selectedNoteId});
+    //   // Clear text input field
+    //   this.$el.find('.note-body').val('');
 
-      // Clear text input field
-      this.$el.find('.note-body').val('');
+    //   jQuery('.note-taking-toggle').slideDown();
+    //   jQuery('.resume-note-btn, .new-note-btn').attr('disabled', 'disabled');
+    // },
 
-      this.$el.find('.note-body').val(app.currentNote.get('body'));
+    // cancelNote: function() {
+    //   console.log("Cancelling note and hiding textarea.");
+    //   // Hide textarea
+    //   jQuery('.note-taking-toggle').slideUp();
+    //   jQuery('.resume-note-btn, .new-note-btn').removeAttr('disabled', 'disabled');
+    // },
 
-      jQuery('.unpublished-note-picker').modal('hide');
-      jQuery('.note-taking-toggle').slideDown();
-      jQuery('.resume-note-btn, .new-note-btn').attr('disabled', 'disabled');
-    },
+    // selectNoteToResume: function(ev){
+    //   var view = this;
+    //   console.log('Select a note.');
+
+    //   var selectedOption = jQuery('#select-note-modal').find(":selected");
+    //   // children()[jQuery('#select-note-modal').index()];
+    //   // retrieve id of selectd note
+    //   var selectedNoteId = jQuery(selectedOption).data('id');
+    //   app.currentNote = view.collection.findWhere({_id: selectedNoteId});
+
+    //   // Clear text input field
+    //   this.$el.find('.note-body').val('');
+
+    //   this.$el.find('.note-body').val(app.currentNote.get('body'));
+
+    //   jQuery('.unpublished-note-picker').modal('hide');
+    //   jQuery('.note-taking-toggle').slideDown();
+    //   jQuery('.resume-note-btn, .new-note-btn').attr('disabled', 'disabled');
+    // },
 
     // createOrRestoreNote: function(ev) {
     //   // alert('createNewNote: want me to do stuff, teach me');
@@ -135,9 +143,8 @@
     //   }
     // },
 
-    shareNote: function() {
+    shareBrainstorm: function() {
       var view = this;
-      console.log('want me to do stuff, teach me');
 
       view.model.set('body', this.$el.find('.note-body').val());
       view.model.set('published', true);
@@ -198,7 +205,12 @@
     },
 
     events: {
-      // nothing here yet, but could be click events on list items to have actions (delete, response and so forth)
+      'click #nav-write-btn'         : "switchToWriteView",
+    },
+
+    switchToWriteView: function() {
+      app.hideAllContainers();
+      jQuery('#write-screen').removeClass('hidden');
     },
 
     render: function () {

@@ -146,10 +146,10 @@
   var ready = function() {
     setupUI();
     setUpClickListeners();
-    wireUpViews("readView");
+    wireUpViews();
 
     // show the first screen
-    jQuery('#read-screen').removeClass('hidden');
+    jQuery('#write-screen').removeClass('hidden');
   };
 
   var setupUI = function() {
@@ -169,7 +169,7 @@
   };
 
 
-  var wireUpViews = function(view) {
+  var wireUpViews = function() {
     /* ======================================================
      * Setting up the Backbone Views to render data
      * coming from Collections and Models.
@@ -178,36 +178,29 @@
      * ======================================================
      */
 
-     if (view === "writeView") {
-       if (app.writeView === null) {
-         app.writeView = new app.View.WriteView({
-           el: '#map-screen',
-           collection: Skeletor.Model.awake.brainstorms
-         });
-       }
+     if (app.writeView === null) {
+       app.writeView = new app.View.WriteView({
+         el: '#write-screen',
+         collection: Skeletor.Model.awake.brainstorms
+       });
      }
 
-    if (view === "readView") {
-      if (app.readView === null) {
-        app.readView = new app.View.ReadView({
-          el: '#read-screen',
-          collection: Skeletor.Model.awake.brainstorms
-        });
-      }
+    if (app.readView === null) {
+      app.readView = new app.View.ReadView({
+        el: '#read-screen',
+        collection: Skeletor.Model.awake.brainstorms
+      });
     }
-
   };
 
 
   //*************** MAIN FUNCTIONS (RENAME ME) ***************//
 
-  // Functions related to Collect screen
+  // Functions related to Write screen
 
 
-  // Functions related to Weather screen
+  // Functions related to Read screen
 
-
-  // Functions related to Map screen
 
 
   //*************** HELPER FUNCTIONS ***************//
@@ -290,11 +283,11 @@
   };
 
   var showUsername = function () {
-    jQuery('.username-display').removeClass('hide');
+    jQuery('.username-display').removeClass('hidden');
   };
 
   var hideUsername = function() {
-    jQuery('.username-display').addClass('hide');
+    jQuery('.username-display').addClass('hidden');
   };
 
   var showRunPicker = function(runs) {
@@ -330,6 +323,7 @@
     jQuery('#login-picker .modal-header h3').text('Please login with your username');
 
     // retrieve all users that have runId
+    // TODO: now that the users collection is within a run... why are the users being tagged with a run? Superfluous...
     app.rollcall.usersWithTags([runId])
     .done(function (availableUsers) {
       jQuery('.login-buttons').html(''); //clear the house
@@ -361,6 +355,7 @@
   };
 
   var setDatabaseAndRollcallCollection = function() {
+    // set both of these globals. This function called from multiple places
     DATABASE = app.config.drowsy.db+'-'+app.runId;
     if (app.rollcall === null) {
       app.rollcall = new Rollcall(app.config.drowsy.url, DATABASE);

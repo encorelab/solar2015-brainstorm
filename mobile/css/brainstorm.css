@@ -221,10 +221,6 @@ input:disabled {
     min-width: 6em;
 }
 
-.username-display .hide {
-    display: none;
-}
-
 .input-alert {
     margin-top: 2%;
 }
