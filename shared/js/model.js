@@ -25,7 +25,7 @@
   Skeletor.Model = (function() {
     function Model() {}
 
-    Model.requiredCollections = ['brainstorms', 'observations', 'states'];
+    Model.requiredCollections = ['brainstorms'];
 
     Model.init = function(url, db) {
       var dfrInit,
@@ -93,49 +93,19 @@
     };
 
     Model.defineModelClasses = function() {
-      /** Brainstorm **/
-
       this.Brainstorm = this.db.Document('brainstorms').extend({
         defaults: {
           'created_at': new Date(),
           'modified_at': new Date(),
           // Not possible since Smartboard is not in this namespace
-          //'author': Skeletor.Mobile.username,
-          'leaves': []
+          //'author': Skeletor.Mobile.username
         }
       });
 
       this.Brainstorms = this.db.Collection('brainstorms').extend({
-        model: Skeletor.Model.LeafDropObservation
+        model: Skeletor.Model.Brainstorm
       });
-
-
-      /** Observation **/
-
-      this.Observation = this.db.Document('observations').extend({
-        defaults: {
-          'created_at': new Date(),
-          'modified_at': new Date(),
-          // Not possible since Smartboard is not in this namespace
-          // 'author': Skeletor.Mobile.username,
-          'published': false
-        }
-      });
-
-      this.Observations = this.db.Collection('observations').extend({
-        model: Skeletor.Model.SalamanderWatchObservation
-      });
-
-
-      /** State **/
-
-      this.State = this.db.Document('states').extend({
-      });
-
-      this.States = this.db.Collection('states').extend({
-        model: Skeletor.Model.State
-      });
-    };
+    }
 
     Model.wake = function(wakefulUrl) {
       var dfrWake = jQuery.Deferred();

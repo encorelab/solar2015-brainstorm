@@ -60,7 +60,7 @@
     app.hideAllContainers();
 
     if (app.rollcall === null) {
-      app.rollcall = new Rollcall(app.config.drowsy.url, DATABASE);
+      app.rollcall = new Rollcall(app.config.drowsy.url, 'solar2015-ben');      // TODO: swtich me back to DATABASE and then figure out how to get the benness in there
     }
 
     app.handleLogin();
@@ -73,8 +73,8 @@
       app.username = jQuery.url().param('username');
     } else {
       // retrieve user name from cookie if possible otherwise ask user to choose name
-      app.runId = jQuery.cookie('hunger-games_mobile_runId');
-      app.username = jQuery.cookie('hunger-games_mobile_username');
+      app.runId = jQuery.cookie('brainstorm_mobile_runId');
+      app.username = jQuery.cookie('brainstorm_mobile_username');
     }
 
     if (app.username && app.runId) {
@@ -183,23 +183,24 @@
      * ======================================================
      */
 
+     if (view === "writeView") {
+       if (app.writeView === null) {
+         app.writeView = new app.View.WriteView({
+           el: '#map-screen',
+           collection: Skeletor.Model.awake.brainstorms
+         });
+       }
+     }
+
     if (view === "readView") {
       if (app.readView === null) {
         app.readView = new app.View.ReadView({
           el: '#read-screen',
-          collection: Skeletor.Model.awake.contributions
+          collection: Skeletor.Model.awake.brainstorms
         });
       }
     }
 
-    if (view === "writeView") {
-      if (app.writeView === null) {
-        app.writeView = new app.View.WriteView({
-          el: '#map-screen',
-          collection: Skeletor.Model.awake.leaf_drop_observations
-        });
-      }
-    }
   };
 
 
@@ -240,7 +241,7 @@
 
         app.username = user.get('username');
 
-        jQuery.cookie('hunger-games_mobile_username', app.username, { expires: 1, path: '/' });
+        jQuery.cookie('brainstorm_mobile_username', app.username, { expires: 1, path: '/' });
         jQuery('.username-display a').text(app.runId+' - '+user.get('display_name'));
 
         // show leaf_drop_observations-screen
@@ -265,8 +266,8 @@
   };
 
   var logoutUser = function () {
-    jQuery.removeCookie('hunger-games_mobile_username',  { path: '/' });
-    jQuery.removeCookie('hunger-games_mobile_runId',  { path: '/' });
+    jQuery.removeCookie('brainstorm_mobile_username',  { path: '/' });
+    jQuery.removeCookie('brainstorm_mobile_runId',  { path: '/' });
 
     // to make reload not log us in again after logout is called we need to remove URL parameters
     if (window.location.search && window.location.search !== "") {
@@ -318,7 +319,7 @@
     // register click listeners
     jQuery('.login-button').click(function() {
       app.runId = jQuery(this).val();
-      jQuery.cookie('hunger-games_mobile_runId', app.runId, { expires: 1, path: '/' });
+      jQuery.cookie('brainstorm_mobile_runId', app.runId, { expires: 1, path: '/' });
       // jQuery('#login-picker').modal("hide");
       showUserLoginPicker(app.runId);
     });
@@ -329,7 +330,7 @@
 
   var showUserLoginPicker = function(runId) {
     // change header
-    jQuery('#login-picker .modal-header h3').text('Please login with your squirrel ID');
+    jQuery('#login-picker .modal-header h3').text('Please login with your username');
 
     // retrieve all users that have runId
     app.rollcall.usersWithTags([runId])
