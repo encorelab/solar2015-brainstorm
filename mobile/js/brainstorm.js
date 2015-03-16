@@ -42,9 +42,6 @@
     app.loadConfig('../config.json');
     app.verifyConfig(app.config, app.requiredConfig);
 
-    // TODO: should ask at startup
-    DATABASE = app.config.drowsy.db;
-
     // Adding BasicAuth to the XHR header in order to authenticate with drowsy database
     // this is not really big security but a start
     var basicAuthHash = btoa(app.config.drowsy.username + ':' + app.config.drowsy.password);
@@ -58,10 +55,6 @@
 
     // hide all rows initially
     app.hideAllContainers();
-
-    if (app.rollcall === null) {
-      app.rollcall = new Rollcall(app.config.drowsy.url, 'solar2015-ben');      // TODO: swtich me back to DATABASE and then figure out how to get the benness in there
-    }
 
     app.handleLogin();
   };
@@ -80,6 +73,9 @@
     if (app.username && app.runId) {
       // We have a user in cookies so we show stuff
       console.log('We found user: '+app.username);
+
+      // this needs runId
+      setDatabaseAndRollcallCollection();
 
       // make sure the app.users collection is always filled
       app.rollcall.usersWithTags([app.runId])
@@ -115,13 +111,12 @@
         }
       });
     } else {
-      console.log('No user and run found so prompt for username and runId');
+      console.log('No user or run found so prompt for username and runId');
       hideUsername();
       // fill modal dialog with user login buttons
       if (app.config.login_picker) {
         hideLogin();
         showRunPicker();
-        // showUserLoginPicker(app.runId);
       } else {
         showLogin();
         hideUserLoginPicker();
@@ -319,6 +314,8 @@
     // register click listeners
     jQuery('.login-button').click(function() {
       app.runId = jQuery(this).val();
+      setDatabaseAndRollcallCollection();
+
       jQuery.cookie('brainstorm_mobile_runId', app.runId, { expires: 1, path: '/' });
       // jQuery('#login-picker').modal("hide");
       showUserLoginPicker(app.runId);
@@ -336,29 +333,39 @@
     app.rollcall.usersWithTags([runId])
     .done(function (availableUsers) {
       jQuery('.login-buttons').html(''); //clear the house
-      console.log(availableUsers);
       app.users = availableUsers;
 
-      // sort the collection by username
-      app.users.comparator = function(model) {
-        return model.get('display_name');
-      };
-      app.users.sort();
+      if (app.users.length > 0) {
+        // sort the collection by username
+        app.users.comparator = function(model) {
+          return model.get('display_name');
+        };
+        app.users.sort();
 
-      app.users.each(function(user) {
-        var button = jQuery('<button class="btn btn-large btn-primary login-button">');
-        button.val(user.get('username'));
-        button.text(user.get('display_name'));
-        jQuery('.login-buttons').append(button);
-      });
+        app.users.each(function(user) {
+          var button = jQuery('<button class="btn btn-large btn-primary login-button">');
+          button.val(user.get('username'));
+          button.text(user.get('display_name'));
+          jQuery('.login-buttons').append(button);
+        });
 
-      // register click listeners
-      jQuery('.login-button').click(function() {
-        var clickedUserName = jQuery(this).val();
-        app.loginUser(clickedUserName);
-      });
+        // register click listeners
+        jQuery('.login-button').click(function() {
+          var clickedUserName = jQuery(this).val();
+          app.loginUser(clickedUserName);
+        });
+      } else {
+        console.warn('Users collection is empty! Check database: '+DATABASE);
+      }
     });
   };
+
+  var setDatabaseAndRollcallCollection = function() {
+    DATABASE = app.config.drowsy.db+'-'+app.runId;
+    if (app.rollcall === null) {
+      app.rollcall = new Rollcall(app.config.drowsy.url, DATABASE);
+    }
+  }
 
   app.hideAllContainers = function () {
     jQuery('.container').each(function (){
