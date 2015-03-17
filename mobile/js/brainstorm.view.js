@@ -94,7 +94,7 @@
         view.model.set('published', true);
         view.model.set('modified_at', new Date());
         view.model.save();
-        jQuery().toastmessage('showSuccessToast', "Your brainstorm contribution has been submitted!");
+        jQuery().toastmessage('showSuccessToast', "Published to brainstorm wall");
 
         // BOOOO - let's get destroy working please
         view.model = null;
@@ -155,18 +155,20 @@
       var list = this.$el.find('ul');
 
       var publishedBrainstorms = view.collection.where({published: true});
+
+      // do sort by newest first (and maybe my notes first?). Harder than it seems :/
+
       _.each(publishedBrainstorms, function(brainstorm){
-        // var me_or_others = 'others';
-        // // add class 'me' or 'other' to brainstorm
-        // if (brainstorm.get('author') === app.username) {
-        //   me_or_others = 'me';
-        // }
+        var me_or_others = 'others';
+        // add class 'me' or 'other' to brainstorm
+        if (brainstorm.get('author') === app.username) {
+          me_or_others = 'me';
+        }
 
         var listItemTemplate = _.template(jQuery(view.template).text());
-        var listItem = listItemTemplate({'id': brainstorm.id, 'title': brainstorm.get('title'), 'body': brainstorm.get('body'), 'author': '- '+brainstorm.get('author'), 'created_at': brainstorm.get('created_at')});
+        var listItem = listItemTemplate({ 'id': brainstorm.get('_id'), 'title': brainstorm.get('title'), 'body': brainstorm.get('body'), 'author': '- '+brainstorm.get('author'), 'me_or_others': me_or_others });
 
         var existingNote = list.find("[data-id='" + brainstorm.id + "']");
-
         if (existingNote.length === 0) {
           list.append(listItem);
         } else {

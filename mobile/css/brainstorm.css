@@ -15,6 +15,16 @@
     opacity: 0.7;
 }
 
+/* START HERE WITH HUGE CLEANUP */
+
+.me {
+    border: 1px solid pink;
+}
+
+.others {
+    border: 1px dotted pink;
+}
+
 
 
 /*to arrange buttons at bottom of screen, needs revising - maybe using calc??*/
@@ -797,7 +807,7 @@ body {
 
 
 /* chat bubble styles REMOVE ME?*/
-
+/*
 .others {
     color: white;
 }
@@ -854,4 +864,4 @@ body {
 
 .note-text p {
     margin: 0;
-}
+}*/
