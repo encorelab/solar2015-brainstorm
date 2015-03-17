@@ -40,7 +40,7 @@
 
     <!-- Tile template -->
     <script id="tile-template" type="text/template">
-        <div class="col-xs-12 col-sm-5 <%= me_or_others %>" data-id=<%= id %>>
+        <div class="col-xs-12 col-sm-5" data-id=<%= id %>>
             <h3><%= title %></h3>
             <div><%= body %></div>
             <div><%= author %></div>
@@ -88,7 +88,8 @@
             <button id="nav-write-btn">WRITE</button>
         </div>
         <div class="row-fluid">
-            <ul></ul>
+            <ul id="my-tiles-list"></ul>
+            <ul id="others-tiles-list"></ul>
             <!-- gets filled by the readScreenView -->
         </div>
     </div>

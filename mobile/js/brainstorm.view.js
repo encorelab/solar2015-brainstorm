@@ -147,35 +147,42 @@
       jQuery('#write-screen').removeClass('hidden');
     },
 
-    render: function () {
+    populateList: function(brainstorms, listId) {
       var view = this;
-      console.log("Rendering ReadView...");
 
-      // find the list where items are rendered into
-      var list = this.$el.find('ul');
+      // we have two lists now, so decide which one we're dealing with here
+      var list = jQuery('#'+listId);
 
-      var publishedBrainstorms = view.collection.where({published: true});
-
-      // do sort by newest first (and maybe my notes first?). Harder than it seems :/
-
-      _.each(publishedBrainstorms, function(brainstorm){
-        var me_or_others = 'others';
-        // add class 'me' or 'other' to brainstorm
-        if (brainstorm.get('author') === app.username) {
-          me_or_others = 'me';
-        }
-
+      _.each(brainstorms, function(brainstorm){
         var listItemTemplate = _.template(jQuery(view.template).text());
-        var listItem = listItemTemplate({ 'id': brainstorm.get('_id'), 'title': brainstorm.get('title'), 'body': brainstorm.get('body'), 'author': '- '+brainstorm.get('author'), 'me_or_others': me_or_others });
+        var listItem = listItemTemplate({ 'id': brainstorm.get('_id'), 'title': brainstorm.get('title'), 'body': brainstorm.get('body'), 'author': '- '+brainstorm.get('author') });
 
-        var existingNote = list.find("[data-id='" + brainstorm.id + "']");
+        var existingNote = list.find("[data-id='" + brainstorm.get('_id') + "']");
         if (existingNote.length === 0) {
-          list.append(listItem);
+          list.prepend(listItem);
         } else {
           existingNote.replaceWith(listItem);
         }
       });
+    },
 
+    render: function () {
+      var view = this;
+      console.log("Rendering ReadView...");
+
+      // sort newest to oldest
+      view.collection.comparator = function(model) {
+        return model.get('created_at');
+      }
+
+      // add the brainstorms to the list under the following ordered conditions:
+      // - my brainstorms, by date (since we're using prepend)
+      // - everyone else's brainstorms, by date (since we're using prepend)
+      var myPublishedBrainstorms = view.collection.sort().where({published: true, author: app.username});
+      view.populateList(myPublishedBrainstorms, "my-tiles-list");
+
+      var othersPublishedBrainstorms = view.collection.sort().filter(function(b) { return b.get('published') === true && b.get('author') !== app.username });
+      view.populateList(othersPublishedBrainstorms, "others-tiles-list");
     }
 
   });

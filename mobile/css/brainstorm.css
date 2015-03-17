@@ -154,10 +154,10 @@ input:disabled {
 
 /********** READ SCREEN **********/
 
-.me {
+#my-tiles-list > div {
     border: 1px solid pink;
 }
 
-.others {
+#others-tiles-list > div {
     border: 1px dotted pink;
 }
