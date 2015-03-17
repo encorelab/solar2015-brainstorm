@@ -25,7 +25,7 @@
   Skeletor.Model = (function() {
     function Model() {}
 
-    Model.requiredCollections = ['brainstorms'];
+    Model.requiredCollections = ['brainstorms', 'states'];
 
     Model.init = function(url, db) {
       var dfrInit,
@@ -97,7 +97,8 @@
         defaults: {
           'created_at': new Date(),
           'modified_at': new Date(),
-          'author': Skeletor.Mobile.username,
+          // Colin this won't work since the model is used by Smartboard and Skeletor.Mobile is not available
+          // 'author': Skeletor.Mobile.username,
           'published': false
         }
       });
@@ -105,7 +106,20 @@
       this.Brainstorms = this.db.Collection('brainstorms').extend({
         model: Skeletor.Model.Brainstorm
       });
-    }
+
+      // board insists and this could be used for PAUSE
+      this.State = this.db.Document('states').extend({
+        defaults: {
+          'created_at': new Date(),
+          'modified_at': new Date(),
+          'paused': false
+        }
+      });
+
+      this.States = this.db.Collection('states').extend({
+        model: Skeletor.Model.State
+      });
+    };
 
     Model.wake = function(wakefulUrl) {
       var dfrWake = jQuery.Deferred();
