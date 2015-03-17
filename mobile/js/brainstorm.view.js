@@ -119,7 +119,7 @@
     ReadView
   **/
   app.View.ReadView = Backbone.View.extend({
-    template: "#notes-list-template",
+    template: "#tile-template",
 
     initialize: function () {
       var view = this;
@@ -149,27 +149,23 @@
 
     render: function () {
       var view = this;
-      console.log("Rendering ReadView");
+      console.log("Rendering ReadView...");
 
       // find the list where items are rendered into
       var list = this.$el.find('ul');
 
-      // Only want to show published notes at some point
-      var publishedNotes = view.collection.where({published: true});
+      var publishedBrainstorms = view.collection.where({published: true});
+      _.each(publishedBrainstorms, function(brainstorm){
+        // var me_or_others = 'others';
+        // // add class 'me' or 'other' to brainstorm
+        // if (brainstorm.get('author') === app.username) {
+        //   me_or_others = 'me';
+        // }
 
-      _.each(publishedNotes, function(note){
-        var me_or_others = 'others';
-        // add class 'me' or 'other' to note
-        if (note.get('author') === app.username) {
-          me_or_others = 'me';
-        }
-
-        // Fix to work with Underscore > 1.7.0 http://stackoverflow.com/questions/25881041/backbone-js-template-example
-        // var listItem = _.template(jQuery(view.template).text(), {'id': note.id, 'text': note.get('body'), 'me_or_others': me_or_others, 'author': note.get('author'), 'created_at': note.get('created_at')});
         var listItemTemplate = _.template(jQuery(view.template).text());
-        var listItem = listItemTemplate({'id': note.id, 'text': note.get('body'), 'me_or_others': me_or_others, 'author': note.get('author'), 'created_at': note.get('created_at')});
+        var listItem = listItemTemplate({'id': brainstorm.id, 'title': brainstorm.get('title'), 'body': brainstorm.get('body'), 'author': '- '+brainstorm.get('author'), 'created_at': brainstorm.get('created_at')});
 
-        var existingNote = list.find("[data-id='" + note.id + "']");
+        var existingNote = list.find("[data-id='" + brainstorm.id + "']");
 
         if (existingNote.length === 0) {
           list.append(listItem);

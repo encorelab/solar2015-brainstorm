@@ -39,12 +39,23 @@
     <script type="text/javascript" src="js/brainstorm.view.js"></script>
 
     <!-- Tile template -->
-    <!-- <script id="tile-template" type="text/template">
-        <li class="col-xs-12 col-sm-5">
+    <script id="tile-template" type="text/template">
+        <div class="col-xs-12 col-sm-5" data-id=<%= id %>>
             <h3><%= title %></h3>
-            <div class="row">
+            <div><%= body %></div>
+            <div><%= author %></div>
+        </div>
+    </script>
 
-            </div>
+    <!--
+    <script id="notes-list-template" type="text/template">
+        <li class="list-item span12" data-id=<%= id %>>
+            <div class="note <%= me_or_others %>">
+                <div class="note-text">
+                    <p><%= text %></p>
+                    <p class="small">Sent by <%= author %>&nbsp; on <%= created_at %></p>
+                </div>
+            </a>
         </li>
     </script> -->
 
@@ -89,7 +100,8 @@
             <button id="nav-write-btn">WRITE</button>
         </div>
         <div class="row-fluid">
-
+            <ul></ul>
+            <!-- gets filled by the readScreenView -->
         </div>
     </div>
 
