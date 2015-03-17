@@ -360,7 +360,7 @@
     if (app.rollcall === null) {
       app.rollcall = new Rollcall(app.config.drowsy.url, DATABASE);
     }
-  }
+  };
 
   app.hideAllContainers = function () {
     jQuery('.container').each(function (){
