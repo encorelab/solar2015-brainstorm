@@ -12,7 +12,7 @@
         "url_dev": "http://localhost:7777/faye"
     },
     "pikachu": {
-        "url": "http://pikachu.badger.encorelab.org/"
+        "url": "http://pikachu.coati.encorelab.org/"
     },
     "login_picker": true,
     "runs":["ben", "julia"],
