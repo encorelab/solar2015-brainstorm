@@ -48,7 +48,7 @@
     showSentenceStarters: function() {
       var view = this;
 
-      // setting up to add sentence start content to a brainstorm, so need to make sure we have a model to add it to
+      // setting up to add sentence starter content to a brainstorm, so need to make sure we have a model to add it to
       if (!view.model) {
         view.checkToAddNewBrainstorm();
       }
@@ -74,7 +74,7 @@
         view.model = new Model.Brainstorm();
         view.model.set('author',app.username);
         view.model.wake(app.config.wakeful.url);
-        view.model.save();
+        model.save(null, {silent:true});
         view.collection.add(view.model);
       }
     },
@@ -111,7 +111,7 @@
     publishBrainstorm: function() {
       var view = this;
       var title = jQuery('#brainstorm-title-input').val();
-      var body = jQuery('#brainstorm-body-input').val();
+      var body = app.turnUrlsToLinks(jQuery('#brainstorm-body-input').val());
 
       if (title.length > 0 && body.length > 0) {
         app.clearAutoSaveTimer();
@@ -150,10 +150,10 @@
       var view = this;
       console.log('Initializing ReadView...', view.el);
 
-      // TODO: if published false, don't render
-      view.collection.on('change', function(n) {
-        view.render();
-      });
+      // we don't need this, since there's no editing of content in this version
+      // view.collection.on('change', function(n) {
+      //   view.render();
+      // });
 
       view.collection.on('add', function(n) {
         view.render();
