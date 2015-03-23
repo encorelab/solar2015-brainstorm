@@ -38,6 +38,7 @@
       var view = this;
 
       view.model = brainstorm;
+      view.model.wake(app.config.wakeful.url);
       jQuery('#brainstorm-title-input').val(brainstorm.get('title'));
       jQuery('#brainstorm-body-input').val(brainstorm.get('body'));
     },
@@ -50,6 +51,7 @@
       if (!view.model) {
         // create a brainstorm object
         view.model = new Model.Brainstorm();
+        view.model.set('author',app.username);
         view.model.wake(app.config.wakeful.url);
         view.model.save();
         view.collection.add(view.model);
@@ -75,11 +77,9 @@
     cancelBrainstorm: function() {
       var view = this;
 
-      // TODO: get this to work, much cleaner - view.model.destroy();   has this been correctly implemented with this version of wakeful?
-      // this doesn't actually cancel a note, if just sets it to blank. Could be relevantly different in some cases
-      view.model.set('title','');
-      view.model.set('body','');
-      view.model.save();
+      app.clearAutoSaveTimer();
+      view.model.destroy();
+      view.model = null;
       jQuery('.input-field').val('');
     },
 
@@ -97,7 +97,6 @@
         view.model.save();
         jQuery().toastmessage('showSuccessToast', "Published to brainstorm wall");
 
-        // BOOOO - let's get destroy working please
         view.model = null;
         jQuery('.input-field').val('');
       } else {
@@ -126,6 +125,7 @@
       var view = this;
       console.log('Initializing ReadView...', view.el);
 
+      // TODO: if published false, don't render
       view.collection.on('change', function(n) {
         view.render();
       });

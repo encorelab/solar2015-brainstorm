@@ -92,13 +92,13 @@
       return df.promise();
     };
 
-    Model.defineModelClasses = function() {
+    Model.defineModelClasses = function(username) {
       this.Brainstorm = this.db.Document('brainstorms').extend({
         defaults: {
           'created_at': new Date(),
           'modified_at': new Date(),
           // Colin this won't work since the model is used by Smartboard and Skeletor.Mobile is not available
-          // 'author': Skeletor.Mobile.username,
+          //'author': username,
           'published': false
         }
       });
