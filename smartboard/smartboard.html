@@ -7,9 +7,10 @@
     <link href="css/smartboard.css" rel="stylesheet">
 
     <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="../bower_components/jquery-ui/ui/minified/jquery-ui.min.js"></script>
 
     <!-- <script src="http://code.jquery.com/jquery-1.9.1.js"></script> -->
-    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <!-- <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script> -->
 
     <script type="text/javascript" src="../node_modules/underscore/underscore.js"></script>
     <script type="text/javascript" src="../node_modules/backbone/backbone.js"></script>
@@ -21,7 +22,9 @@
     <script type="text/javascript" src="../shared/js/skeletor.js"></script>
     <script type="text/javascript" src="../shared/js/model.js"></script>
 
+
     <script type="text/javascript" src="js/smartboard.js"></script>
+    <script type="text/javascript" src="js/smartboard.router.js"></script>
     <script type="text/javascript" src="js/smartboard.view.js"></script>
     <script type="text/javascript" src="js/smartboard.view.wall.js"></script>
     <script type="text/javascript" src="js/smartboard.view.balloons.js"></script>
@@ -57,6 +60,7 @@
     <script>
         jQuery(document).ready(function () {
             Skeletor.Smartboard.init();
+            // Skeletor.Smartboard.Router.start();
         });
     </script>
 </body>
