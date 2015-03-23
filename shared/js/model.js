@@ -93,6 +93,35 @@
     };
 
     Model.defineModelClasses = function(username) {
+      /** Multipos Trait **/
+
+      // Allows a balloon to have multiple sets of positions, for different contexts
+      var MultiposTrait = {
+        getPos: function(context) {
+          var ctx = context || "_";
+          var positions = this.get('pos') || {};
+          // need to clone to ensure that changes aren't unintentionally written back if return value is manipulated
+          return _.clone(positions[ctx]);
+        },
+        setPos: function(pos, context) {
+          if (_.isNull(pos.left) || _.isUndefined(pos.left) ||
+              _.isNull(pos.top)  || _.isUndefined(pos.top)) {
+            console.error("Invalid position for setPos:", pos, context, this);
+            throw new Error("Cannot setPos() because the given position is invalid.");
+          }
+          var ctx = context || "_";
+          var positions = this.has('pos') ? _.clone(this.get('pos')) : {};
+          positions[ctx] = pos;
+          this.set('pos', positions);
+          return this;
+        },
+        hasPos: function(context) {
+          var ctx = context || "_";
+          return this.has('pos') &&
+            !_.isUndefined(this.get('pos')[ctx]);
+        }
+      };
+
       this.Brainstorm = this.db.Document('brainstorms').extend({
         defaults: {
           'created_at': new Date(),
@@ -101,7 +130,8 @@
           //'author': username,
           'published': false
         }
-      });
+      })
+      .extend(MultiposTrait);
 
       this.Brainstorms = this.db.Collection('brainstorms').extend({
         model: Skeletor.Model.Brainstorm
@@ -119,6 +149,10 @@
       this.States = this.db.Collection('states').extend({
         model: Skeletor.Model.State
       });
+
+
+
+
     };
 
     Model.wake = function(wakefulUrl) {
