@@ -31,6 +31,8 @@
       'click #publish-brainstorm-btn'     : 'publishBrainstorm',
       'click #brainstorm-title-input'     : 'checkToAddNewBrainstorm',
       'click #brainstorm-body-input'      : 'checkToAddNewBrainstorm',
+      'click #lightbulb-icon'             : 'showSentenceStarters',
+      'click .sentence-starter'           : 'appendSentenceStarter',
       'keyup :input'                      : 'checkForAutoSave'
     },
 
@@ -43,6 +45,25 @@
       jQuery('#brainstorm-body-input').val(brainstorm.get('body'));
     },
 
+    showSentenceStarters: function() {
+      var view = this;
+
+      // setting up to add sentence starter content to a brainstorm, so need to make sure we have a model to add it to
+      if (!view.model) {
+        view.checkToAddNewBrainstorm();
+      }
+      jQuery('#sentence-starter-modal').modal({keyboard: false, backdrop: 'static'});
+    },
+
+    appendSentenceStarter: function(ev) {
+      // add the sentence starter text to the current body (note that this won't start the autoSave trigger)
+      var bodyText = jQuery('#brainstorm-body-input').val();
+      bodyText += jQuery(ev.target).text();
+      jQuery('#brainstorm-body-input').val(bodyText);
+
+      jQuery('#sentence-starter-modal').modal('hide');
+    },
+
     // does it make more sense to put this in the initialize? (and then also in the publish and cancel?)
     checkToAddNewBrainstorm: function() {
       var view = this;
@@ -53,7 +74,7 @@
         view.model = new Model.Brainstorm();
         view.model.set('author',app.username);
         view.model.wake(app.config.wakeful.url);
-        view.model.save();
+        model.save(null, {silent:true});
         view.collection.add(view.model);
       }
     },
@@ -74,19 +95,23 @@
       }, 5000);
     },
 
+    // destroy a model, if there's something to destroy
     cancelBrainstorm: function() {
       var view = this;
 
-      app.clearAutoSaveTimer();
-      view.model.destroy();
-      view.model = null;
-      jQuery('.input-field').val('');
+      if (view.model) {
+        app.clearAutoSaveTimer();
+        view.model.destroy();
+        // and we need to set it to null to 'remove' it from the local collection
+        view.model = null;
+        jQuery('.input-field').val('');
+      }
     },
 
     publishBrainstorm: function() {
       var view = this;
       var title = jQuery('#brainstorm-title-input').val();
-      var body = jQuery('#brainstorm-body-input').val();
+      var body = app.turnUrlsToLinks(jQuery('#brainstorm-body-input').val());
 
       if (title.length > 0 && body.length > 0) {
         app.clearAutoSaveTimer();
@@ -125,10 +150,10 @@
       var view = this;
       console.log('Initializing ReadView...', view.el);
 
-      // TODO: if published false, don't render
-      view.collection.on('change', function(n) {
-        view.render();
-      });
+      // we don't need this, since there's no editing of content in this version
+      // view.collection.on('change', function(n) {
+      //   view.render();
+      // });
 
       view.collection.on('add', function(n) {
         view.render();

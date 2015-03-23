@@ -20,7 +20,7 @@ textarea {
     -webkit-user-select: text;
     user-select: text;
     color: #333;
-    width: 50%;
+    width: 570px;
     padding: 1%;
 }
 
@@ -150,6 +150,20 @@ input:disabled {
 
 /********** WRITE SCREEN **********/
 
+#brainstorm-body-container {
+    height: 200px;                  /* random choice, change however you'd like */
+    width: 570px;
+}
+
+#brainstorm-body-input {
+    height: 200px;
+}
+
+#lightbulb-icon {
+    float: right;
+    height: 30px;
+    width: 30px;
+}
 
 
 /********** READ SCREEN **********/

@@ -74,9 +74,32 @@
         </div>
         <div class="row-fluid">
             <textarea id="brainstorm-title-input" class="input-field" name="title"></textarea>
-            <textarea id="brainstorm-body-input" class="input-field" name="body"></textarea>
+            <div id="brainstorm-body-container">
+                <!-- this should be inside the textbox, I think? -->
+                <img src="img/lightbulb-icon.png" id="lightbulb-icon"/>
+                <textarea id="brainstorm-body-input" class="input-field" name="body"></textarea>
+            </div>
             <button id="cancel-brainstorm-btn" class="btn">Cancel</button>
             <button id="publish-brainstorm-btn" class="btn">Submit</button>
+        </div>
+
+        <!-- putting the modal in here since it's conceptually part of the view (collection, click listeners etc as well) -->
+        <div id="sentence-starter-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Select a sentence starter to use in your note</h4>
+                    </div>
+                    <div class="modal-body">
+                        <!-- no reason for these to be buttons, switch to whatever -->
+                        <div><button class="sentence-starter">We wonder... </button></div>
+                        <div><button class="sentence-starter">Something that is hard to explain is... </button></div>
+                        <div><button class="sentence-starter">Something that doesn’t make sense is... </button></div>
+                        <div><button class="sentence-starter">It would be interesting to know why... </button></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
