@@ -19,9 +19,19 @@
       this.balloons = {};
 
       Skeletor.Model.awake.brainstorms.on('add', function(n) {
-        wall.registerBalloon(n, Smartboard.View.NoteBalloon, wall.balloons);
+        // Filtering to only contain published brainstorms
+        // if (n.get('published') === true) {
+          wall.registerBalloon(n, Smartboard.View.NoteBalloon, wall.balloons);
+        // }
       });
-      Skeletor.Model.awake.brainstorms.each(function(n) {
+      // Skeletor.Model.awake.brainstorms.on('change', function(n) {
+      //   // Filtering to only contain published brainstorms
+      //   if (n.get('published') === true) {
+      //     wall.registerBalloon(n, Smartboard.View.NoteBalloon, wall.balloons);
+      //   }
+      // });
+      // Filtering to only contain published brainstorms
+      Skeletor.Model.awake.brainstorms.where({"published":true}).forEach(function(n) {
         wall.registerBalloon(n, Smartboard.View.NoteBalloon, wall.balloons);
       });
 
@@ -98,48 +108,48 @@
       });
     },
 
-    registerBalloon: function(note, BalloonView) {
+    registerBalloon: function(brainstorm, BalloonView) {
       var wall = this;
 
       var bv = new BalloonView({
-        model: note
+        model: brainstorm
       });
-      note.wake(Smartboard.config.wakeful.url);
+      brainstorm.wake(Smartboard.config.wakeful.url);
 
       bv.$el.css('visibility', 'hidden');
       bv.wall = wall; // FIXME: hmmm...
       bv.render();
 
       wall.$el.append(bv.$el);
-      note.on('change:pos', function() {
-        bv.pos = note.getPos();
+      brainstorm.on('change:pos', function() {
+        bv.pos = brainstorm.getPos();
       });
 
-      note.on('change:z-index', function() {
-        bv.$el.zIndex(note.get('z-index'));
+      brainstorm.on('change:z-index', function() {
+        bv.$el.zIndex(brainstorm.get('z-index'));
       });
 
-      if (note.hasPos()) {
-        bv.pos = note.getPos();
+      if (brainstorm.hasPos()) {
+        bv.pos = brainstorm.getPos();
       } else {
-        wall.assignRandomPositionToBalloon(note, bv);
+        wall.assignRandomPositionToBalloon(brainstorm, bv);
       }
 
-      if (note.has('z-index')) {
-        bv.$el.zIndex(note.get('z-index'));
+      if (brainstorm.has('z-index')) {
+        bv.$el.zIndex(brainstorm.get('z-index'));
       }
 
-      wall.makeBallonDraggable(note, bv);
+      wall.makeBalloonDraggable(brainstorm, bv);
       bv.$el.click(function() {
-        wall.moveBallonToTop(note, bv);
+        wall.moveBalloonToTop(brainstorm, bv);
       });
 
       bv.render();
-      note.save().done(function() {
+      brainstorm.save().done(function() {
         bv.$el.css('visibility', 'visible');
       });
 
-      this.balloons[note.id] = bv;
+      this.balloons[brainstorm.id] = bv;
     },
 
     assignRandomPositionToBalloon: function(doc, view) {
@@ -152,23 +162,23 @@
         left: left,
         top: top
       });
-      this.moveBallonToTop(doc, view);
+      this.moveBalloonToTop(doc, view);
     },
 
-    moveBallonToTop: function(doc, view) {
+    moveBalloonToTop: function(doc, view) {
       var maxZ;
-      maxZ = this.maxBallonZ();
+      maxZ = this.maxBalloonZ();
       maxZ++;
       return doc.set('z-index', maxZ);
     },
 
-    maxBallonZ: function() {
+    maxBalloonZ: function() {
       return _.max(this.$el.find('.balloon').map(function(el) {
         return parseInt(jQuery(this).zIndex(), 10);
       }));
     },
 
-    makeBallonDraggable: function(doc, view) {
+    makeBalloonDraggable: function(doc, view) {
       var _this = this;
       view.$el.draggable({
         distance: 30,
@@ -184,7 +194,7 @@
         }
       });
       return view.$el.on('dragstart', function(ev, ui) {
-        return _this.moveBallonToTop(doc, view);
+        return _this.moveBalloonToTop(doc, view);
       });
     },
 
@@ -218,7 +228,7 @@
         selector = ".tag-" + activeIds.join(", .tag-");
         this.$el.find(".content:not(" + selector + ")").addClass('blurred');
         this.$el.find(".connector:not(" + selector + ")").addClass('blurred');
-        maxZ = this.maxBallonZ();
+        maxZ = this.maxBalloonZ();
         this.$el.find(".content").filter("" + selector).removeClass('blurred').css('z-index', maxZ + 1);
         return this.$el.find(".connector").filter("" + selector).removeClass('blurred');
       }
