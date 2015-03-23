@@ -1,6 +1,6 @@
 {
     "drowsy": {
-        "url": "https://drowsy.badger.encorelab.org",
+        "url": "https://drowsy.coati.encorelab.org",
         "url_dev": "http://localhost:9292",
         "db": "solar2015",
         "username":"foo",
