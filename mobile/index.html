@@ -40,10 +40,10 @@
 
     <!-- Tile template -->
     <script id="tile-template" type="text/template">
-        <div class="col-xs-12 col-sm-5" data-id=<%= id %>>
-            <h3><%= title %></h3>
-            <div><%= body %></div>
-            <div><%= author %></div>
+        <div class="tile col-xs-12 col-sm-5" data-id=<%= id %>>
+            <h3 class="data-id=<%= id %>"><%= title %></h3>
+            <div class="data-id=<%= id %>"><%= body %></div>
+            <div class="data-id=<%= id %>"><%= author %></div>
         </div>
     </script>
 
@@ -107,6 +107,22 @@
                 </div>
                 <div class="modal-body login-buttons">
                 <!-- filled by java script with buttons for user login -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tile-details" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title tile-title"><!-- filled by read-screen view --></h4>
+                </div>
+                <div class="modal-body">
+                <!-- filled by read-screen view -->
+                    <div class="tile-body"></div>
+                    <div class="tile-author"></div>
                 </div>
             </div>
         </div>

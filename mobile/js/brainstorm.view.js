@@ -18,6 +18,7 @@
       var view = this;
       console.log('Initializing WriteView...', view.el);
 
+      // check if we need to resume any brainstorm note
       var brainstormToResume = view.collection.findWhere({author: app.username, published: false});
       if (brainstormToResume) {
         view.setupResumedBrainstorm(brainstormToResume);
@@ -139,12 +140,25 @@
     },
 
     events: {
-      'click #nav-write-btn'         : "switchToWriteView",
+      'click #nav-write-btn'         : 'switchToWriteView',
+      'click .tile'                  : 'showTileDetails'
     },
 
     switchToWriteView: function() {
       app.hideAllContainers();
       jQuery('#write-screen').removeClass('hidden');
+    },
+
+    // TODO: create more views, definitely one for the tiles
+    showTileDetails: function(ev) {
+      // retrieve the brainstorm with the id in data-id
+      var brainstorm = app.readView.collection.get(jQuery(ev.target).parent().data('id'))
+      jQuery('#tile-details .tile-title').text(brainstorm.get('title'));
+      jQuery('#tile-details .tile-body').text(brainstorm.get('body'));
+      jQuery('#tile-details .tile-author').text("- " + brainstorm.get('author'));
+
+
+      jQuery('#tile-details').modal({keyboard: false, backdrop: 'static'});
     },
 
     populateList: function(brainstorms, listId) {
