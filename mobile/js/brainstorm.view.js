@@ -31,6 +31,8 @@
       'click #publish-brainstorm-btn'     : 'publishBrainstorm',
       'click #brainstorm-title-input'     : 'checkToAddNewBrainstorm',
       'click #brainstorm-body-input'      : 'checkToAddNewBrainstorm',
+      'click #lightbulb-icon'             : 'showSentenceStarters',
+      'click .sentence-starter'           : 'appendSentenceStarter',
       'keyup :input'                      : 'checkForAutoSave'
     },
 
@@ -41,6 +43,25 @@
       view.model.wake(app.config.wakeful.url);
       jQuery('#brainstorm-title-input').val(brainstorm.get('title'));
       jQuery('#brainstorm-body-input').val(brainstorm.get('body'));
+    },
+
+    showSentenceStarters: function() {
+      var view = this;
+
+      // setting up to add sentence start content to a brainstorm, so need to make sure we have a model to add it to
+      if (!view.model) {
+        view.checkToAddNewBrainstorm();
+      }
+      jQuery('#sentence-starter-modal').modal({keyboard: false, backdrop: 'static'});
+    },
+
+    appendSentenceStarter: function(ev) {
+      // add the sentence starter text to the current body (note that this won't start the autoSave trigger)
+      var bodyText = jQuery('#brainstorm-body-input').val();
+      bodyText += jQuery(ev.target).text();
+      jQuery('#brainstorm-body-input').val(bodyText);
+
+      jQuery('#sentence-starter-modal').modal('hide');
     },
 
     // does it make more sense to put this in the initialize? (and then also in the publish and cancel?)
@@ -74,13 +95,17 @@
       }, 5000);
     },
 
+    // destroy a model, if there's something to destroy
     cancelBrainstorm: function() {
       var view = this;
 
-      app.clearAutoSaveTimer();
-      view.model.destroy();
-      view.model = null;
-      jQuery('.input-field').val('');
+      if (view.model) {
+        app.clearAutoSaveTimer();
+        view.model.destroy();
+        // and we need to set it to null to 'remove' it from the local collection
+        view.model = null;
+        jQuery('.input-field').val('');
+      }
     },
 
     publishBrainstorm: function() {
