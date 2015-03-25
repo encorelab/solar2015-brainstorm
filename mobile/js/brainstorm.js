@@ -27,7 +27,8 @@
   var DATABASE = null;
 
   app.rollcall = null;
-  app.runId= null;
+  app.runId = null;
+  app.runState = null;
   app.users = null;
   app.username = null;
 
@@ -137,9 +138,17 @@
       console.log('Model initialized - now waking up');
       return Skeletor.Model.wake(app.config.wakeful.url);
     })
+    .then(function() {
+      // run state used for pausing/locking the tablet
+      console.log('State model initialized - now waking up');
+      app.runState = Skeletor.getState('RUN');
+      app.runState.wake(app.config.wakeful.url);
+      app.updateRunState();
+      app.runState.on('change', app.updateRunState);
+    })
     .done(function () {
       ready();
-      console.log('Model awake - now calling ready');
+      console.log('Models are awake - now calling ready...');
     });
   };
 
@@ -359,6 +368,21 @@
     DATABASE = app.config.drowsy.db+'-'+app.runId;
     if (app.rollcall === null) {
       app.rollcall = new Rollcall(app.config.drowsy.url, DATABASE);
+    }
+  };
+
+  app.updateRunState = function() {
+    // currently only used for pause, but could be expanded for different states (eg brainstorm vs proposal)
+
+    // checking paused status
+    if (app.runState.get('paused') === true) {
+      console.log('Locking screen...');
+      jQuery('#lock-screen').removeClass('hidden');
+      jQuery('.user-screen').addClass('hidden');
+    } else if (app.runState.get('paused') === false) {
+      console.log('Unlocking screen...');
+      jQuery('#lock-screen').addClass('hidden');
+      jQuery('.user-screen').removeClass('hidden');
     }
   };
 

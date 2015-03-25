@@ -65,6 +65,18 @@ textarea {
     -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 }
 
+#lock-screen {
+    height: 100%;
+    width: 100%;
+    background: black;
+}
+
+#lock-img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+
 
 /********** TYPOGRAPHY **********/
 
