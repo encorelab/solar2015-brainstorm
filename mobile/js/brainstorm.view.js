@@ -74,7 +74,7 @@
         view.model = new Model.Brainstorm();
         view.model.set('author',app.username);
         view.model.wake(app.config.wakeful.url);
-        model.save(null, {silent:true});
+        view.model.save();
         view.collection.add(view.model);
       }
     },
@@ -151,9 +151,9 @@
       console.log('Initializing ReadView...', view.el);
 
       // we don't need this, since there's no editing of content in this version
-      // view.collection.on('change', function(n) {
-      //   view.render();
-      // });
+      view.collection.on('change', function(n) {
+        view.render();
+      });
 
       view.collection.on('add', function(n) {
         view.render();
