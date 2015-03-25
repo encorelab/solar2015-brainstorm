@@ -158,6 +158,7 @@
     wireUpViews();
 
     // show the first screen
+    app.hideAllContainers();
     jQuery('#write-screen').removeClass('hidden');
   };
 

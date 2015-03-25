@@ -67,15 +67,19 @@ textarea {
     color: #DB77C8;
 }
 
+#sentence-starter-modal .modal-content {
+    background: #e6a5da;
+}
+
 
 /********** READ SCREEN **********/
 
 #my-tiles-list > li {
-    outline: 1px solid pink;
+    outline: 2px solid #c31fa4;
 }
 
 #others-tiles-list > li {
-    outline: 1px dotted pink;
+    outline: 2px dotted #db7bc8;
 }
 /*to create the square tiles http://stackoverflow.com/questions/20456694/grid-of-responsive-squares*/
 .tile-container {
@@ -84,14 +88,26 @@ textarea {
     -webkit-outline-radius: 10px;
     float: left;
     position: relative;
-    padding-bottom: 25%; /* = width for a 1:1 aspect ratio */
+    padding-bottom: 33.33%; /* = width for a 1:1 aspect ratio */
     overflow: hidden;
+    min-height: 192px;
 }
 .tile {
     position: absolute;
-    height: 80%; /* = 100% - 2*10% padding */
+    height: 90%; /* = 100% - 2*5% padding */
     width: 90%; /* = 100% - 2*5% padding */
-    padding: 10% 5%;
+    padding: 5%;
+}
+.tile-title {
+    height: 25%;
+}
+.tile-body {
+    height: 55%;
+    overflow: hidden;
+}
+.tile-author {
+    height: 20%;
+    padding-top: 5px;
 }
 
 #lock-screen {
@@ -227,9 +243,6 @@ textarea {
     display: table-cell;
     vertical-align: middle;
 }
-.modal-content {
-    background: #e6a5da;
-}
 
 
 /********** NAVBAR **********/
@@ -264,4 +277,14 @@ input:disabled {
 
 .input-alert {
     margin-top: 2%;
+}
+
+
+@media all and (min-width: 1200px) {
+
+    .tile-container {
+        padding-bottom: 25%; /* = width for a 1:1 aspect ratio */
+    }
+
+
 }
