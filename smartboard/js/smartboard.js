@@ -21,7 +21,7 @@
     };
 
     // TODO: load this from config.json
-    smartboard.loadConfig();
+    smartboard.loadConfig('../config.json');
     smartboard.verifyConfig(smartboard.config, requiredConfig);
 
     // TODO: Pick run id

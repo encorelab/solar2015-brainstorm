@@ -15,6 +15,6 @@
         "url": "http://pikachu.coati.encorelab.org/"
     },
     "login_picker": true,
-    "runs":["ben", "julia"],
+    "runs":["ben", "michael"],
     "project_name": "Solar 2015"
 }
