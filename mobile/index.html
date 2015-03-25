@@ -12,6 +12,8 @@
 
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400,300' rel='stylesheet' type='text/css'>
 
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
     <link href="css/brainstorm.css" rel="stylesheet">
 
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
@@ -70,12 +72,12 @@
     <div id="write-screen" class="container-fluid">
         <!-- this may want to be a separate view, when we eventually expand brainstorm to the full solar app -->
         <div class="row">
-            <div class="side-nav col-sm-1 col-sm-offset-2">
-                <button id="nav-read-btn">READ</button>
+            <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-offset-1">
+                <button id="nav-read-btn" class="fa fa-clipboard fa-3x"></button>
             </div>
         </div>
         <div class="row">
-            <div class="inner-wrapper col-sm-7 col-sm-offset-3">
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
                 <textarea id="brainstorm-title-input" class="input-field" name="title"></textarea>
                 <div id="brainstorm-body-container">
                     <!-- this should be inside the textbox, I think? -->
@@ -109,15 +111,19 @@
 
 
     <!-- Read Screen -->
-    <div id="read-screen" class="container">
+    <div id="read-screen" class="container-fluid">
         <!-- this may want to be a separate view, when we eventually expand brainstorm to the full solar app -->
-        <div class="row side-nav">
-            <button id="nav-write-btn">WRITE</button>
+        <div class="row">
+            <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-offset-1">
+                <button id="nav-write-btn" class="fa fa-pencil fa-3x"></button>
+            </div>
         </div>
         <div class="row">
-            <ul id="my-tiles-list"></ul>
-            <ul id="others-tiles-list"></ul>
-            <!-- gets filled by the readScreenView -->
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+                <ul id="my-tiles-list"></ul>
+                <ul id="others-tiles-list"></ul>
+                <!-- gets filled by the readScreenView -->
+            </div>
         </div>
     </div>
 

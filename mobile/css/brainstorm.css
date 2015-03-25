@@ -153,23 +153,33 @@ body, html {
     height: 100%;
 }
 
-.inner-wrapper,
-.side-nav {
-  position: absolute;
-  top: 50%;
-  /*left: 50%;*/
-  transform: translateY(-50%);
-}
-
-
-
-/********** WRITE SCREEN **********/
-
-#write-screen {
+#write-screen,
+#read-screen {
     position: relative;
     height: 100%;
     padding-top: 50px;
 }
+
+.inner-wrapper,
+.side-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/***** side nav *****/
+#nav-read-btn,
+#nav-write-btn {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    border: none;
+    color: #fff;
+    background: #c31fa4;
+}
+
+
+/********** WRITE SCREEN **********/
 
 #brainstorm-body-container {
     height: 200px;                  /* random choice, change however you'd like */
@@ -185,6 +195,7 @@ body, html {
     height: 30px;
     width: 30px;
 }
+
 
 
 /********** READ SCREEN **********/
