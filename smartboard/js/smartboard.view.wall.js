@@ -160,7 +160,9 @@
           if (brainstorm.get('published')) {
             bv.$el.css('visibility', 'visible');
           }
-        } else {
+        }
+        // this else is to show the Tag balloons
+        else {
           bv.$el.css('visibility', 'visible');
         }
 
@@ -171,8 +173,9 @@
 
     assignRandomPositionToBalloon: function(doc, view) {
       var left, top, wallHeight, wallWidth;
-      wallWidth = this.$el.width;
-      wallHeight = this.$el.height;
+      // changed from this.$el.width;   very strange - maybe changed backbone api?
+      wallWidth = this.$el.width();
+      wallHeight = this.$el.height();
       left = Math.random() * (wallWidth - view.width);
       top = Math.random() * (wallHeight - view.height);
       doc.setPos({
