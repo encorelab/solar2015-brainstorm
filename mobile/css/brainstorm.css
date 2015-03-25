@@ -1,7 +1,8 @@
-/* Extra small devices (phones, less than 768px) */
-/* No media query since this is the default in Bootstrap */
+/********** B R A I N S T O R M  **********/
 
-/********** MISC **********/
+textarea {
+    border: 2px solid #c31fa4;
+}
 
 /* what's the correct way to do this? */
 .disabled {
@@ -20,7 +21,8 @@ textarea {
     -webkit-user-select: text;
     user-select: text;
     color: #333;
-    width: 570px;
+    width: 100%;
+    /*width: 570px;*/
     padding: 1%;
 }
 
@@ -142,17 +144,36 @@ input:disabled {
 
 /********** BODY - ALL **********/
 
+/*there is no longer any row-fluid - should not be used in future projects*/
 .row-fluid {
     padding-top: 50px;
+}
+
+body, html {
+    height: 100%;
+}
+
+.inner-wrapper,
+.side-nav {
+  position: absolute;
+  top: 50%;
+  /*left: 50%;*/
+  transform: translateY(-50%);
 }
 
 
 
 /********** WRITE SCREEN **********/
 
+#write-screen {
+    position: relative;
+    height: 100%;
+    padding-top: 50px;
+}
+
 #brainstorm-body-container {
     height: 200px;                  /* random choice, change however you'd like */
-    width: 570px;
+    /*width: 570px;*/
 }
 
 #brainstorm-body-input {
