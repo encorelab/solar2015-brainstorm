@@ -166,7 +166,7 @@
 
     events: {
       'click #nav-write-btn'         : 'switchToWriteView',
-      'click .tile'                  : 'showTileDetails'
+      'click .tile-container'        : 'showTileDetails'
     },
 
     switchToWriteView: function() {
@@ -177,7 +177,7 @@
     // TODO: create more views, definitely one for the tiles
     showTileDetails: function(ev) {
       // retrieve the brainstorm with the id in data-id
-      var brainstorm = app.readView.collection.get(jQuery(ev.target).parent().data('id'))
+      var brainstorm = app.readView.collection.get(jQuery(ev.target).data('id'))
       jQuery('#tile-details .tile-title').text(brainstorm.get('title'));
       jQuery('#tile-details .tile-body').text(brainstorm.get('body'));
       jQuery('#tile-details .tile-author').text("- " + brainstorm.get('author'));
