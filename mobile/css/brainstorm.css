@@ -1,76 +1,94 @@
 /********** B R A I N S T O R M  **********/
 
+#write-screen,
+#read-screen {
+    position: relative;
+    height: 100%;
+    padding-top: 50px;
+}
+
+.inner-wrapper,
+.side-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/*circular buttons*/
+.btn-circular {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    border: none;
+    color: #fff;
+    background: #c31fa4;
+}
+.btn-circular:hover,
+.btn-circular:focus,
+.btn-circular:active {
+    background: #db7bc8;
+}
+
 textarea {
     border: 2px solid #c31fa4;
 }
 
-/* what's the correct way to do this? */
-.disabled {
-    pointer-events: none;
-    cursor: default;
-    /*background-color: #BDBDC1;*/                  /* we probably want something a little more stark than this */
-    opacity: 0.7;
-}
-
-.hidden {
-    display: none;
-}
-
-textarea {
-    -moz-user-select: text;
-    -webkit-user-select: text;
-    user-select: text;
-    color: #333;
+.sentence-starter {
+    background: #fff;
     width: 100%;
-    /*width: 570px;*/
-    padding: 1%;
+    text-align: left;
 }
-
-.btn {
-    margin-bottom: 20px;
-    height: 45px;
-    min-width: 160px;
-}
-
-/*removing linear gradients from button defaults*/
-.btn-default,
-.btn-default:hover,
-.btn-default:focus,
-.btn-default:active,
-.btn-success,
-.btn-success:hover,
-.btn-success:focus,
-.btn-success:active.
-.sentence-starter,
 .sentence-starter:hover,
 .sentence-starter:focus,
 .sentence-starter:active {
-    background-image: none;
-    text-shadow: none;
-}
-
-.btn-success,
-.btn-success:hover,
-.btn-success:focus,
-.btn-success:active {
-    font-size: 16px;
-    letter-spacing: 0.05em;
-    border: none;
-}
-
-/*so the scroll bar appears at all times*/
-::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 7px;
-}
-::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background-color: rgba(0,0,0,.5);
-    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+    background: #db7bc8;
 }
 
 
-/********** TYPOGRAPHY **********/
+/********** WRITE SCREEN **********/
+
+#brainstorm-body-container {
+    height: 200px;           /* random choice, change however you'd like */
+}
+
+#brainstorm-body-input {
+    height: 200px;
+}
+
+.fa-lightbulb-o {
+    color: #c31fa4;
+    position: absolute;
+    top: 30%;
+    right: 5%;
+}
+.fa-lightbulb-o:hover,
+.fa-lightbulb-o:focus,
+.fa-lightbulb-o:active {
+    color: #DB77C8;
+}
+
+
+/********** READ SCREEN **********/
+
+#my-tiles-list > li,
+#others-tiles-list > li {
+    outline: 1px solid pink;
+    outline-offset: -10px;
+    -moz-outline-radius: 10px;
+    -webkit-outline-radius: 10px;
+    overflow: hidden;
+}
+
+#others-tiles-list > li {
+    outline: 1px dotted pink;
+}
+
+.tile {
+    /*margin-right: 1.6%;*/
+}
+
+
+/********** T Y P O G R A P H Y **********/
 
 body {
     font-family: 'Open Sans', 'HelveticaNeue', 'Helvetica Neue', Helvetica, sans-serif;
@@ -104,11 +122,96 @@ label {
     vertical-align: middle;
 }
 
-.label-lg {
-    font-size: 20px;
-    font-weight: 300;
-    margin-top: -25px;
+
+/********** G L O B A L **********/
+
+body, html {
+    height: 100%;
 }
+
+a,
+a:hover,
+button,
+button:hover,
+i,
+i:hover {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.margin-bottom-25 {
+    margin-bottom: 25px;
+}
+
+/* what's the correct way to do this? */
+.disabled {
+    pointer-events: none;
+    cursor: default;
+    /*background-color: #BDBDC1;*/      /* we probably want something a little more stark than this */
+    opacity: 0.7;
+}
+
+.hidden {
+    display: none;
+}
+
+textarea {
+    -moz-user-select: text;
+    -webkit-user-select: text;
+    user-select: text;
+    color: #333;
+    width: 100%;
+    padding: 25px 2% 1%;
+}
+
+.btn {
+    margin-bottom: 20px;
+    height: 45px;
+    min-width: 160px;
+}
+
+/*removing linear gradients from button defaults - remove??*/
+/*.sentence-starter,
+.sentence-starter:hover,
+.sentence-starter:focus,
+.sentence-starter:active {
+    background-image: none;
+    text-shadow: none;
+}*/
+
+/*so the scroll bar appears at all times*/
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.5);
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+
+/***** modals *****/
+/*for vertical centering; had to add .table & .table-cell divs to html*/
+.table {
+    display: table;
+    height:100%;
+}
+.table-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+.modal-content {
+    background: #e6a5da;
+}
+
 
 /********** NAVBAR **********/
 
@@ -142,125 +245,4 @@ input:disabled {
 
 .input-alert {
     margin-top: 2%;
-}
-
-
-
-/********** BODY - ALL **********/
-
-/*there is no longer any row-fluid - should not be used in future projects*/
-/*.row-fluid {
-    padding-top: 50px;
-}*/
-
-a,
-a:hover,
-button,
-button:hover,
-i,
-i:hover {
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-}
-
-body, html {
-    height: 100%;
-}
-
-#write-screen,
-#read-screen {
-    position: relative;
-    height: 100%;
-    padding-top: 50px;
-}
-
-.inner-wrapper,
-.side-nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-/***** side nav *****/
-#nav-read-btn,
-#nav-write-btn {
-    width: 75px;
-    height: 75px;
-    border-radius: 50%;
-    border: none;
-    color: #fff;
-    background: #c31fa4;
-}
-
-#nav-read-btn:hover,
-#nav-read-btn:focus,
-#nav-read-btn:active,
-#nav-write-btn:hover,
-#nav-write-btn:focus,
-#nav-write-btn:active {
-    background: #DB77C8;
-}
-
-/***** modals *****/
-/*for vertical centering; had to add .table & .table-cell divs to html*/
-.table {
-    display: table;
-    height:100%;
-}
-.table-cell {
-    display: table-cell;
-    vertical-align: middle;
-}
-
-.modal-content {
-    background: #e6a5da;
-}
-.sentence-starter {
-    background: #fff;
-    width: 100%;
-    text-align: left;
-}
-.sentence-starter:hover,
-.sentence-starter:focus,
-.sentence-starter:active {
-    background: #db7bc8;
-}
-
-
-
-/********** WRITE SCREEN **********/
-
-#brainstorm-body-container {
-    height: 200px;                  /* random choice, change however you'd like */
-    /*width: 570px;*/
-}
-
-#brainstorm-body-input {
-    height: 200px;
-}
-
-.fa-lightbulb-o {
-    color: #c31fa4;
-    position: absolute;
-    top: 25%;
-    right: 5%;
-}
-.fa-lightbulb-o:hover,
-.fa-lightbulb-o:focus,
-.fa-lightbulb-o:active {
-    color: #DB77C8;
-}
-
-
-
-/********** READ SCREEN **********/
-
-#my-tiles-list > div {
-    border: 1px solid pink;
-}
-
-#others-tiles-list > div {
-    border: 1px dotted pink;
 }
