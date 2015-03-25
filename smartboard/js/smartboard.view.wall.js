@@ -24,6 +24,12 @@
           wall.registerBalloon(n, Smartboard.View.NoteBalloon, wall.balloons);
         // }
       });
+
+      Skeletor.Model.awake.brainstorms.on('destroy', function(n) {
+        console.warn("I was destoryed", n.id);
+        // wall.registerBalloon(n, Smartboard.View.NoteBalloon, wall.balloons);
+      });
+
       // Skeletor.Model.awake.brainstorms.on('change', function(n) {
       //   // Filtering to only contain published brainstorms
       //   if (n.get('published') === true) {
@@ -146,7 +152,11 @@
 
       bv.render();
       brainstorm.save().done(function() {
-        bv.$el.css('visibility', 'visible');
+        // only show balloon if published is true
+        // if it isn't we listen to change:publish in the balloon view
+        if (brainstorm.get('published')) {
+          bv.$el.css('visibility', 'visible');
+        }
       });
 
       this.balloons[brainstorm.id] = bv;

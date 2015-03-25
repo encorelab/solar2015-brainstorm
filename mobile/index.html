@@ -42,11 +42,13 @@
 
     <!-- Tile template -->
     <script id="tile-template" type="text/template">
-        <div class="tile col-xs-12 col-sm-5" data-id=<%= id %>>
-            <h3 class="data-id=<%= id %>"><%= title %></h3>
-            <div class="data-id=<%= id %>"><%= body %></div>
-            <div class="data-id=<%= id %>"><%= author %></div>
-        </div>
+        <li class="tile-container col-xs-12 col-sm-4 col-lg-3 margin-bottom-25" data-id=<%= id %>>
+            <div class="tile">
+                <h3 class="data-id=<%= id %>"><%= title %></h3>
+                <div class="data-id=<%= id %>"><%= body %></div>
+                <div class="data-id=<%= id %>"><%= author %></div>
+            </div>
+        </li>
     </script>
 
 </head>
@@ -77,36 +79,38 @@
         <!-- this may want to be a separate view, when we eventually expand brainstorm to the full solar app -->
         <div class="row">
             <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-offset-1">
-                <button id="nav-read-btn" class="fa fa-clipboard fa-3x"></button>
+                <button id="nav-read-btn" class="fa fa-eye fa-3x btn-circular"></button>
             </div>
-        </div>
-        <div class="row">
             <div class="inner-wrapper col-xs-9 col-xs-offset-2">
-                <textarea id="brainstorm-title-input" class="input-field" name="title"></textarea>
-                <div id="brainstorm-body-container">
+                <textarea id="brainstorm-title-input" class="input-field margin-bottom-25" name="title"></textarea>
+                <div id="brainstorm-body-container" class="margin-bottom-25">
                     <!-- this should be inside the textbox, I think? -->
-                    <img src="img/lightbulb-icon.png" id="lightbulb-icon"/>
+                    <i class="fa fa-lightbulb-o fa-4x" id="lightbulb-icon"></i>
                     <textarea id="brainstorm-body-input" class="input-field" name="body"></textarea>
                 </div>
-                <button id="cancel-brainstorm-btn" class="btn">Cancel</button>
-                <button id="publish-brainstorm-btn" class="btn">Submit</button>
+                <button id="publish-brainstorm-btn" class="btn-circular fa fa-check fa-3x pull-right"></button>
+                <button id="cancel-brainstorm-btn" class="btn-circular fa fa-times fa-3x pull-right"></button>
             </div>
         </div>
 
         <!-- putting the modal in here since it's conceptually part of the view (collection, click listeners etc as well) -->
         <div id="sentence-starter-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Select a sentence starter to use in your note</h4>
-                    </div>
-                    <div class="modal-body">
-                        <!-- no reason for these to be buttons, switch to whatever -->
-                        <div><button class="sentence-starter">We wonder... </button></div>
-                        <div><button class="sentence-starter">Something that is hard to explain is... </button></div>
-                        <div><button class="sentence-starter">Something that doesn’t make sense is... </button></div>
-                        <div><button class="sentence-starter">It would be interesting to know why... </button></div>
+            <div class="table">
+                <div class="table-cell">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Select a sentence starter to use in your note</h4>
+                            </div>
+                            <div class="modal-body">
+                                <!-- no reason for these to be buttons, switch to whatever -->
+                                <div><button class="btn sentence-starter">We wonder... </button></div>
+                                <div><button class="btn sentence-starter">Something that is hard to explain is... </button></div>
+                                <div><button class="btn sentence-starter">Something that doesn’t make sense is... </button></div>
+                                <div><button class="btn sentence-starter">It would be interesting to know why... </button></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -119,13 +123,13 @@
         <!-- this may want to be a separate view, when we eventually expand brainstorm to the full solar app -->
         <div class="row">
             <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-offset-1">
-                <button id="nav-write-btn" class="fa fa-pencil fa-3x"></button>
+                <button id="nav-write-btn" class="fa fa-pencil fa-3x btn-circular"></button>
             </div>
         </div>
         <div class="row">
             <div class="inner-wrapper col-xs-9 col-xs-offset-2">
-                <ul id="my-tiles-list"></ul>
-                <ul id="others-tiles-list"></ul>
+                <ul id="my-tiles-list" class="row"></ul>
+                <ul id="others-tiles-list" class="row"></ul>
                 <!-- gets filled by the readScreenView -->
             </div>
         </div>
