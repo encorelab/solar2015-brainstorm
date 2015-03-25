@@ -8,7 +8,7 @@ module.exports = function(grunt) {
     },
     jsonlint: {
       dev: {
-        src: ['./*.json']
+        src: ['./*.json', 'scaffolding/*.json']
       }
     }
   });
