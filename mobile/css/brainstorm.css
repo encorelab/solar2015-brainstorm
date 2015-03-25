@@ -70,21 +70,28 @@ textarea {
 
 /********** READ SCREEN **********/
 
-#my-tiles-list > li,
-#others-tiles-list > li {
+#my-tiles-list > li {
     outline: 1px solid pink;
-    outline-offset: -10px;
-    -moz-outline-radius: 10px;
-    -webkit-outline-radius: 10px;
-    overflow: hidden;
 }
 
 #others-tiles-list > li {
     outline: 1px dotted pink;
 }
-
+/*to create the square tiles http://stackoverflow.com/questions/20456694/grid-of-responsive-squares*/
+.tile-container {
+    outline-offset: -10px;
+    -moz-outline-radius: 10px;
+    -webkit-outline-radius: 10px;
+    float: left;
+    position: relative;
+    padding-bottom: 25%; /* = width for a 1:1 aspect ratio */
+    overflow: hidden;
+}
 .tile {
-    /*margin-right: 1.6%;*/
+    position: absolute;
+    height: 80%; /* = 100% - 2*10% padding */
+    width: 90%; /* = 100% - 2*5% padding */
+    padding: 10% 5%;
 }
 
 
