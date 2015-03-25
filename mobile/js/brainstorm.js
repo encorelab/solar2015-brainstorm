@@ -363,7 +363,7 @@
   };
 
   app.hideAllContainers = function () {
-    jQuery('.container').each(function (){
+    jQuery('.container-fluid').each(function (){
       jQuery(this).addClass('hidden');
     });
   };
