@@ -76,8 +76,6 @@
 
       balloon.model.on('change:published', function() {
         if (balloon.model.get('published')) {
-          // setting visibility once the element is published = true
-          balloon.$el.css('visibility', 'visible');
           balloon.$el.addClass('new');
           setTimeout(function() {
             return balloon.$el.removeClass('new');
@@ -349,7 +347,7 @@
 
       _.chain(balloon.wall.balloons)
       .filter(function(bv) {
-        return bv.model instanceof Skeletor.Model.Note && bv.model.hasTag(balloon.model);
+        return bv.model instanceof Skeletor.Model.Brainstorm && bv.model.hasTag(balloon.model);
       })
       .each(function(bv) {
         bv.renderConnectors();

@@ -25,7 +25,7 @@
   Skeletor.Model = (function() {
     function Model() {}
 
-    Model.requiredCollections = ['brainstorms', 'states'];
+    Model.requiredCollections = ['brainstorms', 'tags', 'states'];
 
     Model.init = function(url, db) {
       var dfrInit,
@@ -93,6 +93,51 @@
     };
 
     Model.defineModelClasses = function(username) {
+      /** Taggable Trait **/
+      var TaggableTrait = {
+        addTag: function(tag, tagger) {
+          var existingTagRelationships, tagRel,
+            _this = this;
+          if (!(tag instanceof Skeletor.Model.Tag)) {
+            console.error("Cannot addTag ", tag, " because it is not a Skeletor.Model.Tag instance!");
+            throw "Invalid tag (doesn't exist)";
+          }
+          if (!tag.id) {
+            console.error("Cannot addTag ", tag, " to contribution ", this, " because it doesn't have an id!");
+            throw "Invalid tag (no id)";
+          }
+          existingTagRelationships = this.get('tags') || [];
+          if (_.any(existingTagRelationships, function(tr) {
+            return tr.id === tag.id;
+          })) {
+            console.warn("Cannot addTag ", tag, " to contribution ", this, " because it already has this tag.");
+            return this;
+          }
+          tagRel = this.tagRel(tag, tagger);
+          existingTagRelationships.push(tagRel);
+          this.set('tags', existingTagRelationships);
+          return this;
+        },
+
+        removeTag: function(tag, tagger) {
+          var reducedTags,
+            _this = this;
+          reducedTags = _.reject(this.get('tags'), function(t) {
+            return (t.id === tag.id || t.name === tag.get('name')) && (!tagger || t.tagger === tagger);
+          });
+          this.set('tags', reducedTags);
+          return this;
+        },
+
+        hasTag: function(tag, tagger) {
+          var _this = this;
+          return _.any(this.get('tags'), function(t) {
+            return t.id.toLowerCase() === tag.id && (!tagger || t.tagger === tagger);
+          });
+        }
+      };
+
+
       /** Multipos Trait **/
 
       // Allows a balloon to have multiple sets of positions, for different contexts
@@ -131,6 +176,7 @@
           'published': false
         }
       })
+      .extend(TaggableTrait)
       .extend(MultiposTrait);
 
       this.Brainstorms = this.db.Collection('brainstorms').extend({
@@ -150,7 +196,18 @@
         model: Skeletor.Model.State
       });
 
+      // semi-hack (since they're not really tags). Should be removed from 'clean' version of Brainstorm (eg non-solar2015ized)
+      this.Tag = this.db.Document('tags').extend({
+        defaults: {
+          'created_at': new Date(),
+          'modified_at': new Date()
+        }
+      })
+      .extend(MultiposTrait);
 
+      this.Tags = this.db.Collection('tags').extend({
+        model: Skeletor.Model.Tag
+      });
 
 
     };

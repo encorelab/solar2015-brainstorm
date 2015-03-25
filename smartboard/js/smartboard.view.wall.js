@@ -41,15 +41,15 @@
         wall.registerBalloon(n, Smartboard.View.NoteBalloon, wall.balloons);
       });
 
-      // Skeletor.Model.awake.tags.on('add', function(t) {
-      //   wall.registerBalloon(t, Smartboard.View.TagBalloon, wall.balloons);
-      // });
-      // Skeletor.Model.awake.tags.each(function(t) {
-      //   wall.registerBalloon(t, Smartboard.View.TagBalloon, wall.balloons);
-      // });
-      // Skeletor.Model.awake.tags.each(function(t) {
-      //   wall.balloons[t.id].renderConnectors();
-      // });
+      Skeletor.Model.awake.tags.on('add', function(t) {
+        wall.registerBalloon(t, Smartboard.View.TagBalloon, wall.balloons);
+      });
+      Skeletor.Model.awake.tags.each(function(t) {
+        wall.registerBalloon(t, Smartboard.View.TagBalloon, wall.balloons);
+      });
+      Skeletor.Model.awake.tags.each(function(t) {
+        wall.balloons[t.id].renderConnectors();
+      });
     },
 
     events: {
@@ -152,11 +152,18 @@
 
       bv.render();
       brainstorm.save().done(function() {
-        // only show balloon if published is true
-        // if it isn't we listen to change:publish in the balloon view
-        if (brainstorm.get('published')) {
+        //WARNING: IMPLICIT AS HELL DAWG
+        // we need a condition to determine if the 'brainstorm' is a balloon or a tag. For now, saying that if it has an author, it should be a balloon, if not it is a tag
+        if (brainstorm.get('author')) {
+          // only show balloon if published is true
+          // if it isn't we listen to change:publish in the balloon view
+          if (brainstorm.get('published')) {
+            bv.$el.css('visibility', 'visible');
+          }
+        } else {
           bv.$el.css('visibility', 'visible');
         }
+
       });
 
       this.balloons[brainstorm.id] = bv;
