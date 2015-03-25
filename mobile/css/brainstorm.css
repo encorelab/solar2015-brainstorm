@@ -40,7 +40,11 @@ textarea {
 .btn-success,
 .btn-success:hover,
 .btn-success:focus,
-.btn-success:active {
+.btn-success:active.
+.sentence-starter,
+.sentence-starter:hover,
+.sentence-starter:focus,
+.sentence-starter:active {
     background-image: none;
     text-shadow: none;
 }
@@ -145,8 +149,20 @@ input:disabled {
 /********** BODY - ALL **********/
 
 /*there is no longer any row-fluid - should not be used in future projects*/
-.row-fluid {
+/*.row-fluid {
     padding-top: 50px;
+}*/
+
+a,
+a:hover,
+button,
+button:hover,
+i,
+i:hover {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 body, html {
@@ -178,6 +194,41 @@ body, html {
     background: #c31fa4;
 }
 
+#nav-read-btn:hover,
+#nav-read-btn:focus,
+#nav-read-btn:active,
+#nav-write-btn:hover,
+#nav-write-btn:focus,
+#nav-write-btn:active {
+    background: #DB77C8;
+}
+
+/***** modals *****/
+/*for vertical centering; had to add .table & .table-cell divs to html*/
+.table {
+    display: table;
+    height:100%;
+}
+.table-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.modal-content {
+    background: #e6a5da;
+}
+.sentence-starter {
+    background: #fff;
+    width: 100%;
+    text-align: left;
+}
+.sentence-starter:hover,
+.sentence-starter:focus,
+.sentence-starter:active {
+    background: #db7bc8;
+}
+
+
 
 /********** WRITE SCREEN **********/
 
@@ -190,10 +241,16 @@ body, html {
     height: 200px;
 }
 
-#lightbulb-icon {
-    float: right;
-    height: 30px;
-    width: 30px;
+.fa-lightbulb-o {
+    color: #c31fa4;
+    position: absolute;
+    top: 25%;
+    right: 5%;
+}
+.fa-lightbulb-o:hover,
+.fa-lightbulb-o:focus,
+.fa-lightbulb-o:active {
+    color: #DB77C8;
 }
 
 
