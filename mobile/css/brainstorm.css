@@ -47,9 +47,7 @@ textarea {
     width: 100%;
     text-align: left;
 }
-.sentence-starter:hover,
-.sentence-starter:focus,
-.sentence-starter:active {
+.sentence-starter:hover{
     background: #db7bc8;
 }
 
@@ -62,6 +60,8 @@ textarea {
 
 #brainstorm-body-input {
     height: 250px;
+    padding-right: 50px;
+
 }
 
 .fa-lightbulb-o {
@@ -118,14 +118,26 @@ textarea {
     height: 25%;
     margin-top: 10px;
     overflow: hidden;
+    font-weight: 500;
 }
 .tile-body {
-    height: 55%;
     overflow: hidden;
+    line-height: 1.5;
+    font-weight: 300;
 }
-.tile-author {
-    height: 20%;
-    padding-top: 5px;
+#my-tiles-list .tile-body {
+    height: 70%;
+}
+#others-tiles-list .tile-body {
+    height: 55%;
+}
+#my-tiles-list .tile-author {
+    display: none;
+}
+#others-tiles-list .tile-author {
+    height: 15%;
+    padding-top: 10px;
+    color: #c31fa4;
 }
 
 @media handheld and (orientation: landscape) {
