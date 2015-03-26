@@ -164,6 +164,7 @@ button:hover {
     transform: scale(1);
   }
 }
+
 @keyframes pulseGrow {
   0% {
     transform: scale(1);
@@ -177,6 +178,7 @@ button:hover {
     transform: scale(1);
   }
 }
+
 @-webkit-keyframes pulseFade {
   0% {
     opacity: 1.0;
@@ -190,6 +192,7 @@ button:hover {
     opacity: 1.0;
   }
 }
+
 @keyframes pulseFade {
   0% {
     opacity: 1.0;
@@ -203,6 +206,7 @@ button:hover {
     opacity: 1.0;
   }
 }
+
 @-webkit-keyframes teleportIn {
   0% {
     -webkit-transform: scale(0.3);
@@ -224,6 +228,7 @@ button:hover {
     transform: scale(1);
   }
 }
+
 @keyframes teleportIn {
   0% {
     transform: scale(0.3);
@@ -239,6 +244,7 @@ button:hover {
     transform: scale(1);
   }
 }
+
 @-webkit-keyframes glow {
   0% {
     box-shadow: #ff4 0 0 10px 1px;
@@ -252,6 +258,7 @@ button:hover {
     box-shadow: #ff4 0 0 10px 1px;
   }
 }
+
 @keyframes glow {
   0% {
     box-shadow: #ff4 0 0 10px 1px;
@@ -265,6 +272,7 @@ button:hover {
     box-shadow: #ff4 0 0 10px 1px;
   }
 }
+
 .content.balloon {
   position: absolute;
   width: 170px;
@@ -789,6 +797,7 @@ button:hover {
     transform: scale(1);
   }
 }
+
 @keyframes pulseGrow {
   0% {
     transform: scale(1);
@@ -802,6 +811,7 @@ button:hover {
     transform: scale(1);
   }
 }
+
 @-webkit-keyframes pulseFade {
   0% {
     opacity: 1.0;
@@ -815,6 +825,7 @@ button:hover {
     opacity: 1.0;
   }
 }
+
 @keyframes pulseFade {
   0% {
     opacity: 1.0;
@@ -828,6 +839,7 @@ button:hover {
     opacity: 1.0;
   }
 }
+
 @-webkit-keyframes teleportIn {
   0% {
     -webkit-transform: scale(0.3);
@@ -849,6 +861,7 @@ button:hover {
     transform: scale(1);
   }
 }
+
 @keyframes teleportIn {
   0% {
     transform: scale(0.3);
@@ -864,6 +877,7 @@ button:hover {
     transform: scale(1);
   }
 }
+
 @-webkit-keyframes glow {
   0% {
     box-shadow: #ff4 0 0 10px 1px;
@@ -877,6 +891,7 @@ button:hover {
     box-shadow: #ff4 0 0 10px 1px;
   }
 }
+
 @keyframes glow {
   0% {
     box-shadow: #ff4 0 0 10px 1px;
