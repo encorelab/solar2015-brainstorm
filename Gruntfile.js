@@ -10,16 +10,27 @@ module.exports = function(grunt) {
       dev: {
         src: ['./*.json', 'scaffolding/*.json']
       }
+    },
+    sass: { // Task
+      dist: { // Target
+        options: { // Target options
+          style: 'expanded'
+        },
+        files: { // Dictionary of files
+          'smartboard/css/smartboard.css': 'smartboard/css/scss/main.scss' // 'destination': 'source'
+        }
+      }
     }
   });
 
   // Load the plugin that provides the "uglify" task.
   // grunt.loadNpmTasks('grunt-contrib');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-jsonlint');
 
   // Default task(s) .
   // grunt.registerTask('default', ['uglify']);
-  grunt.registerTask('default', ['jshint',  'jsonlint']);
+  grunt.registerTask('default', ['jshint',  'jsonlint', 'sass']);
   grunt.registerTask('lint', ['jshint', 'jsonlint']);
 };
