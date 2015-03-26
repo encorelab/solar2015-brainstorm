@@ -1,12 +1,12 @@
 /*csslint gradients: false, font-sizes: false */
 
-@import url(http://fonts.googleapis.com/css?family=Ubuntu:400,700,400italic,700italic);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400,600);
 
 // color theme: https://kuler.adobe.com/#themeID/2129122
 
-$wall-color: #ab2;
+$wall-color: #db7bc8;
 
-$widget-background-color: #ffa100;
+$widget-background-color: #c31fa4;
 $widget-accent-color: #c8271a;
 
 @mixin transition-property($duration, $property: all, $timing: ease, $delay: 0) {
@@ -139,10 +139,10 @@ button {
     border: none;
     padding: 4px 10px;
     background-color: $widget-accent-color;
-    color: $widget-background-color;
+    color: #fff;
     font-weight: bold;
-    box-shadow: inset -1px -2px 8px rgba(0, 0, 0, 0.6),
-                2px 1px 8px rgba(0, 0, 0, 0.3);
+    // box-shadow: inset -1px -2px 8px rgba(0, 0, 0, 0.6),
+    //             2px 1px 8px rgba(0, 0, 0, 0.3);
     border-radius: 1em;
 
     font-size: 20px;
