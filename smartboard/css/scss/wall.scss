@@ -7,7 +7,7 @@
 $wall-color: #db7bc8;
 
 $widget-background-color: #c31fa4;
-$widget-accent-color: #c8271a;
+$widget-accent-color: #c31fa4;
 
 @mixin transition-property($duration, $property: all, $timing: ease, $delay: 0) {
     @include vendorize(transition, $property $duration $timing $delay);
@@ -65,7 +65,7 @@ body {
         border-radius: 1em;
         background-color: $widget-background-color;
         padding: 0;
-        box-shadow: 2px 1px 8px rgba(0, 0, 0, 0.3);
+        // box-shadow: 2px 1px 8px rgba(0, 0, 0, 0.3);
         font-size: $font-size;
         min-width: 106px;
 
@@ -76,7 +76,7 @@ body {
             margin: 0;
             white-space: nowrap;
             z-index: 1;
-            box-shadow: inset -1px -2px 8px rgba(0, 0, 0, 0.6);
+            // box-shadow: inset -1px -2px 8px rgba(0, 0, 0, 0.6);
 
             @include transition-property(0.5s);
         }
@@ -88,13 +88,13 @@ body {
         #submit-new-tag {
             border: none;
             display: inline-block;
-            padding: 4px 10px;
+            padding: 12px 18px;
             background-color: $widget-accent-color;
             color: white;
             font-weight: bold;
             font-size: $font-size;
             border-radius: 1em;
-            box-shadow: inset -1px -2px 8px rgba(0, 0, 0, 0.6);
+            // box-shadow: inset -1px -2px 8px rgba(0, 0, 0, 0.6);
             margin: 0;
             position: absolute;
             top: 0;
@@ -129,6 +129,7 @@ body {
             display: inline-block;
             width: 14em;
             margin-left: 140px;
+            line-height: 2em;
         }
     }
 }
@@ -141,6 +142,7 @@ button {
     background-color: $widget-accent-color;
     color: #fff;
     font-weight: bold;
+    padding: 10px;
     // box-shadow: inset -1px -2px 8px rgba(0, 0, 0, 0.6),
     //             2px 1px 8px rgba(0, 0, 0, 0.3);
     border-radius: 1em;

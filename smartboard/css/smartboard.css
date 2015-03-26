@@ -44,7 +44,6 @@ body {
   border-radius: 1em;
   background-color: #c31fa4;
   padding: 0;
-  box-shadow: 2px 1px 8px rgba(0, 0, 0, 0.3);
   font-size: 20px;
   min-width: 106px;
 }
@@ -55,7 +54,6 @@ body {
   margin: 0;
   white-space: nowrap;
   z-index: 1;
-  box-shadow: inset -1px -2px 8px rgba(0, 0, 0, 0.6);
   -webkit-transition: all 0.5s ease 0;
   -moz-transition: all 0.5s ease 0;
   transition: all 0.5s ease 0;
@@ -66,13 +64,12 @@ body {
 #wall #add-tag-container #submit-new-tag {
   border: none;
   display: inline-block;
-  padding: 4px 10px;
-  background-color: #c8271a;
+  padding: 12px 18px;
+  background-color: #c31fa4;
   color: white;
   font-weight: bold;
   font-size: 20px;
   border-radius: 1em;
-  box-shadow: inset -1px -2px 8px rgba(0, 0, 0, 0.6);
   margin: 0;
   position: absolute;
   top: 0;
@@ -103,15 +100,17 @@ body {
   display: inline-block;
   width: 14em;
   margin-left: 140px;
+  line-height: 2em;
 }
 
 button {
   display: inline-block;
   border: none;
   padding: 4px 10px;
-  background-color: #c8271a;
+  background-color: #c31fa4;
   color: #fff;
   font-weight: bold;
+  padding: 10px;
   border-radius: 1em;
   font-size: 20px;
   -webkit-transition: opacity 1s ease 0;
@@ -286,7 +285,7 @@ button:hover {
   overflow: hidden;
 }
 .content.balloon .meta .buildon-counter {
-  color: rgba(200, 39, 26, 0.5);
+  color: rgba(195, 31, 164, 0.5);
   font-size: 13px;
   margin-bottom: 1em;
   position: absolute;
@@ -329,7 +328,7 @@ button:hover {
   margin-top: 5px;
   padding-left: 5px;
   margin-bottom: 5px;
-  border-left: 4px solid rgba(200, 39, 26, 0.5);
+  border-left: 4px solid rgba(195, 31, 164, 0.5);
 }
 .content.balloon .buildons .buildon .author {
   color: rgba(0, 0, 0, 0.4);
@@ -467,7 +466,8 @@ button:hover {
   cursor: -moz-grabbing;
   cursor: -webkit-grabbing;
   cursor: grabbing;
-  box-shadow: #c2761f 0 0 5px 5px;
+  box-shadow: #7bdbbe 0 0 7px 7px;
+  /* greenish color */
 }
 .balloon.blurred {
   opacity: 0.15;
