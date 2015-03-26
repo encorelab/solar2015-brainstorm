@@ -319,7 +319,7 @@
     },
 
     toggleFilter: function () {
-      if ($el.hasClass('active')) {
+      if (this.$el.hasClass('active')) {
         Smartboard.wall.removeTagFilter(this.model);
         return this.$el.removeClass('active');
       } else {

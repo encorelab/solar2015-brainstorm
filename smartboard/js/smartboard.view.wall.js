@@ -16,7 +16,8 @@
 
       Smartboard.runState.on('change', this.render);
 
-      this.balloons = {};
+      wall.tagFilters = [];
+      wall.balloons = {};
 
       Skeletor.Model.awake.brainstorms.on('add', function(n) {
         // Filtering to only contain published brainstorms
@@ -219,7 +220,7 @@
     },
 
     addTagFilter: function(tag) {
-      if (__indexOf.call(this.tagFilters, tag) < 0) {
+      if (this.tagFilters.indexOf(tag) < 0) {
         this.tagFilters.push(tag);
         return this.renderFiltered();
       }
