@@ -139,7 +139,8 @@
       if (brainstorm.hasPos()) {
         bv.pos = brainstorm.getPos();
       } else {
-        wall.assignRandomPositionToBalloon(brainstorm, bv);
+        //wall.assignRandomPositionToBalloon(brainstorm, bv);
+        wall.assignStaticPositionToBalloon(brainstorm, bv);
       }
 
       if (brainstorm.has('z-index')) {
@@ -177,6 +178,14 @@
       });
 
       this.balloons[brainstorm.id] = bv;
+    },
+
+    assignStaticPositionToBalloon: function(doc, view) {
+      doc.setPos({
+        left: 0,
+        top: 0
+      });
+      this.moveBalloonToTop(doc, view);
     },
 
     assignRandomPositionToBalloon: function(doc, view) {
