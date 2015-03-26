@@ -73,6 +73,7 @@
         // create a brainstorm object
         view.model = new Model.Brainstorm();
         view.model.set('author',app.username);
+        view.model.set('publish',false);
         view.model.wake(app.config.wakeful.url);
         view.model.save();
         view.collection.add(view.model);

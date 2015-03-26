@@ -226,8 +226,10 @@
         // NOTE: MOVING FROM PATCH TO SAVE
         // patch was flipping published to false, so we had to remove it. No idea why. Probably something in the faye library?
         // follow the .patch() below to faye-browser.js: this._socket.onmessage (~line 1827) to see where it happens
-        // return doc.save(null, { patch: true })
-        return doc.save();
+        return doc.save(null, { patch: true })
+        // And moving back. When we remove the published: false default from the model the issue seems to disappear
+        // Does faye somehow trigger the model init??
+        // return doc.save();
       });
       view.$el.on('drag', function(ev, ui) {
         if (view.renderConnectors !== null) {

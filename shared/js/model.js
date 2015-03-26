@@ -170,10 +170,10 @@
       this.Brainstorm = this.db.Document('brainstorms').extend({
         defaults: {
           'created_at': new Date(),
-          'modified_at': new Date(),
+          'modified_at': new Date()
           // Colin this won't work since the model is used by Smartboard and Skeletor.Mobile is not available
           //'author': username,
-          'published': false
+          // 'published': false
         }
       })
       .extend(TaggableTrait)
