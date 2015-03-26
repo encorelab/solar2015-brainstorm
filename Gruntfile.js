@@ -17,7 +17,7 @@ module.exports = function(grunt) {
           style: 'expanded'
         },
         files: { // Dictionary of files
-          'smartboard/css/smartboard.css': 'smartboard/css/scss/main.scss' // 'destination': 'source'
+          'smartboard/css/smartboard.css': 'smartboard/css/scss/wall.scss' // 'destination': 'source'
         }
       }
     }
