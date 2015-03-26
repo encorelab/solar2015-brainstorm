@@ -5,7 +5,7 @@
   var Model = this.Skeletor.Model;
 
 
-  smartboard.init = function() {
+  smartboard.init = function(className) {
     _.extend(this, Backbone.Events);
 
     var requiredConfig = {
@@ -26,7 +26,7 @@
 
     // TODO: Pick run id
     var app = {};
-    app.runId = "ben";
+    app.runId = className;
     // TODO: should ask at startup
     var DATABASE = smartboard.config.drowsy.db+'-'+app.runId;
 
