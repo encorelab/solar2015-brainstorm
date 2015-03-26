@@ -242,7 +242,7 @@ textarea {
     -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 }
 
-/***** modals *****/
+/********** M O D A L S **********/
 /*for vertical centering; had to add .table & .table-cell divs to html*/
 .table {
     display: table;
@@ -253,8 +253,21 @@ textarea {
     vertical-align: middle;
 }
 
+/***** login modal *****/
+#login-picker button {
+    color: #333;
+    border-radius: 7px;
+    border: solid #ddd 1px;
+    background: #fff;
+    background-image: none;
+    text-shadow: none;
+}
+#login-picker button:hover {
+    background: #aaa;
+    color: #fff;
+}
 
-/********** NAVBAR **********/
+/********** N A V B A R **********/
 
 /* This hides any element with class alert directly after an input field with a pattern (regex) */
 input[pattern] + .alert {
@@ -289,11 +302,22 @@ input:disabled {
 }
 
 
+/********** M E D I A  Q U E R I E S **********/
+
+/* Large devices (LARGE DESKTOPS, 1200px and up) */
 @media all and (min-width: 1200px) {
 
     .tile-container {
         padding-bottom: 25%; /* = width for a 1:1 aspect ratio */
     }
 
+    .tile h3 {
+        font-size: 20px;
+    }
+    .tile .title-body,
+    .tile .title-author {
+        font-size: 16px;
+        line-height: 1.2;
+    }
 
 }
