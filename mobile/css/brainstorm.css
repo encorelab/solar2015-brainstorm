@@ -74,6 +74,10 @@ textarea {
 
 /********** READ SCREEN **********/
 
+#read-screen {
+    top: 310px;
+}
+
 #my-tiles-list > li {
     outline: 2px solid #c31fa4;
 }
@@ -91,6 +95,9 @@ textarea {
     padding-bottom: 33.33%; /* = width for a 1:1 aspect ratio */
     overflow: hidden;
     min-height: 192px;
+}
+#others-tiles-list .tile-container:last-child {
+    margin-bottom: 25px;
 }
 .tile {
     position: absolute;
