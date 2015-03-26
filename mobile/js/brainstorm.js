@@ -159,7 +159,7 @@
 
     // show the first screen
     app.hideAllContainers();
-    jQuery('#write-screen').removeClass('hidden');
+    jQuery('#read-screen').removeClass('hidden');
   };
 
   var setupUI = function() {
@@ -305,7 +305,7 @@
     console.log(app.config.runs);
 
     // change header
-    jQuery('#login-picker .modal-header h3').text('Please choose your class');
+    jQuery('#login-picker .modal-header h3').text("Select your teacher's name");
 
     _.each(app.config.runs, function(run) {
       var button = jQuery('<button class="btn btn-large btn-primary login-button">');
