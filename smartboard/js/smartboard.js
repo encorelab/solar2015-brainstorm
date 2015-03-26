@@ -51,6 +51,7 @@
   };
 
   smartboard.ready = function() {
+    // RUNSTATE
     smartboard.runState = Skeletor.getState('RUN');
     if (!smartboard.runState) {
       smartboard.runState = Skeletor.setState('RUN', {
@@ -59,6 +60,13 @@
     }
     smartboard.runState.wake(smartboard.config.wakeful.url);
 
+    // TAGS
+    // Works without these. Why do we keep the instance around here in JS?
+    // Most of the collections (runState is special) seem to sit in views
+    // smartboard.tags = Skeletor.Model.awake.tags;
+    // smartboard.tags.wake(smartboard.config.wakeful.url);
+
+    // WALL
     smartboard.wall = new smartboard.View.Wall({
       el: '#wall'
     });
@@ -72,10 +80,10 @@
 
   smartboard.createNewTag = function (tagName) {
     var tag = new Model.Tag({
-      name: tagName,
-      created_at: new Date()
+      name: tagName
     });
     tag.wake(smartboard.config.wakeful.url);
+    tag.save();
 
     return Model.awake.tags.add(tag);
   };

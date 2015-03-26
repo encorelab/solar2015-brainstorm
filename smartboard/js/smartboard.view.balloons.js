@@ -321,7 +321,7 @@
     },
 
     toggleFilter: function () {
-      if ($el.hasClass('active')) {
+      if (this.$el.hasClass('active')) {
         Smartboard.wall.removeTagFilter(this.model);
         return this.$el.removeClass('active');
       } else {
@@ -349,7 +349,7 @@
 
       _.chain(balloon.wall.balloons)
       .filter(function(bv) {
-        return bv.model instanceof Skeletor.Model.Note && bv.model.hasTag(balloon.model);
+        return bv.model instanceof Skeletor.Model.Brainstorm && bv.model.hasTag(balloon.model);
       })
       .each(function(bv) {
         bv.renderConnectors();

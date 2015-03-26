@@ -16,7 +16,8 @@
 
       Smartboard.runState.on('change', this.render);
 
-      this.balloons = {};
+      wall.tagFilters = [];
+      wall.balloons = {};
 
       Skeletor.Model.awake.brainstorms.on('add', function(n) {
         // Filtering to only contain published brainstorms
@@ -41,15 +42,15 @@
         wall.registerBalloon(n, Smartboard.View.NoteBalloon, wall.balloons);
       });
 
-      // Skeletor.Model.awake.tags.on('add', function(t) {
-      //   wall.registerBalloon(t, Smartboard.View.TagBalloon, wall.balloons);
-      // });
-      // Skeletor.Model.awake.tags.each(function(t) {
-      //   wall.registerBalloon(t, Smartboard.View.TagBalloon, wall.balloons);
-      // });
-      // Skeletor.Model.awake.tags.each(function(t) {
-      //   wall.balloons[t.id].renderConnectors();
-      // });
+      Skeletor.Model.awake.tags.on('add', function(t) {
+        wall.registerBalloon(t, Smartboard.View.TagBalloon, wall.balloons);
+      });
+      Skeletor.Model.awake.tags.each(function(t) {
+        wall.registerBalloon(t, Smartboard.View.TagBalloon, wall.balloons);
+      });
+      Skeletor.Model.awake.tags.each(function(t) {
+        wall.balloons[t.id].renderConnectors();
+      });
     },
 
     events: {
@@ -138,7 +139,8 @@
       if (brainstorm.hasPos()) {
         bv.pos = brainstorm.getPos();
       } else {
-        wall.assignRandomPositionToBalloon(brainstorm, bv);
+        //wall.assignRandomPositionToBalloon(brainstorm, bv);
+        wall.assignStaticPositionToBalloon(brainstorm, bv);
       }
 
       if (brainstorm.has('z-index')) {
@@ -152,20 +154,45 @@
 
       bv.render();
       brainstorm.save().done(function() {
-        // only show balloon if published is true
-        // if it isn't we listen to change:publish in the balloon view
-        if (brainstorm.get('published')) {
-          bv.$el.css('visibility', 'visible');
+        // If it isn't brainstorm show it and if it is brainstorm only show it on publish
+        if ( !(brainstorm instanceof Skeletor.Model.Brainstorm) || ((brainstorm instanceof Skeletor.Model.Brainstorm) && brainstorm.get('published')) ) {
+            bv.$el.css('visibility', 'visible');
+        } else {
+          console.log("Invisible man");
         }
+
+        //WARNING: IMPLICIT AS HELL DAWG
+        // we need a condition to determine if the 'brainstorm' is a balloon or a tag. For now, saying that if it has an author, it should be a balloon, if not it is a tag
+        // if (brainstorm.get('author')) {
+        //   // only show balloon if published is true
+        //   // if it isn't we listen to change:publish in the balloon view
+        //   if (brainstorm.get('published')) {
+        //     bv.$el.css('visibility', 'visible');
+        //   }
+        // }
+        // // this else is to show the Tag balloons
+        // else {
+        //   bv.$el.css('visibility', 'visible');
+        // }
+
       });
 
       this.balloons[brainstorm.id] = bv;
     },
 
+    assignStaticPositionToBalloon: function(doc, view) {
+      doc.setPos({
+        left: 0,
+        top: 0
+      });
+      this.moveBalloonToTop(doc, view);
+    },
+
     assignRandomPositionToBalloon: function(doc, view) {
       var left, top, wallHeight, wallWidth;
-      wallWidth = this.$el.width;
-      wallHeight = this.$el.height;
+      // changed from this.$el.width;   very strange - maybe changed backbone api?
+      wallWidth = this.$el.width();
+      wallHeight = this.$el.height();
       left = Math.random() * (wallWidth - view.width);
       top = Math.random() * (wallHeight - view.height);
       doc.setPos({
@@ -209,7 +236,7 @@
     },
 
     addTagFilter: function(tag) {
-      if (__indexOf.call(this.tagFilters, tag) < 0) {
+      if (this.tagFilters.indexOf(tag) < 0) {
         this.tagFilters.push(tag);
         return this.renderFiltered();
       }
