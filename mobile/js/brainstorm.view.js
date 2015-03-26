@@ -177,7 +177,7 @@
     // TODO: create more views, definitely one for the tiles
     showTileDetails: function(ev) {
       // retrieve the brainstorm with the id in data-id
-      var brainstorm = app.readView.collection.get(jQuery(ev.target).data('id'))
+      var brainstorm = app.readView.collection.get(jQuery(ev.target).data('id'));
       jQuery('#tile-details .tile-title').text(brainstorm.get('title'));
       jQuery('#tile-details .tile-body').text(brainstorm.get('body'));
       jQuery('#tile-details .tile-author').text("- " + brainstorm.get('author'));
@@ -212,7 +212,7 @@
       // sort newest to oldest
       view.collection.comparator = function(model) {
         return model.get('created_at');
-      }
+      };
 
       // add the brainstorms to the list under the following ordered conditions:
       // - my brainstorms, by date (since we're using prepend)
@@ -220,7 +220,7 @@
       var myPublishedBrainstorms = view.collection.sort().where({published: true, author: app.username});
       view.populateList(myPublishedBrainstorms, "my-tiles-list");
 
-      var othersPublishedBrainstorms = view.collection.sort().filter(function(b) { return b.get('published') === true && b.get('author') !== app.username });
+      var othersPublishedBrainstorms = view.collection.sort().filter(function(b) { return (b.get('published') === true && b.get('author') !== app.username); });
       view.populateList(othersPublishedBrainstorms, "others-tiles-list");
     }
 
