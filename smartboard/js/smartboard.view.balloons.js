@@ -78,10 +78,10 @@
         if (balloon.model.get('published')) {
           // setting visibility once the element is published = true
           balloon.$el.css('visibility', 'visible');
-          balloon.$el.addClass('new');
-          setTimeout(function() {
-            return balloon.$el.removeClass('new');
-          }, 1001);
+          balloon.$el.addClass('ui-draggable-dragging');
+          // setTimeout(function() {
+          //   return balloon.$el.removeClass('new');
+          // }, 1001);
           return balloon.model.on('wakeful:broadcast:received', function() {
             if (!balloon.$el.hasClass('glow')) {
               balloon.$el.addClass('glow');

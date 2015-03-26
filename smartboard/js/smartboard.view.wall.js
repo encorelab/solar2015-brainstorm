@@ -140,7 +140,7 @@
         bv.pos = brainstorm.getPos();
       } else {
         //wall.assignRandomPositionToBalloon(brainstorm, bv);
-        wall.assignStaticPositionToBalloon(brainstorm, bv);
+        wall.assignRandomPositionToBalloon(brainstorm, bv);
       }
 
       if (brainstorm.has('z-index')) {
