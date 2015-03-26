@@ -7,11 +7,21 @@
     padding-top: 50px;
 }
 
+#nav-read-btn,
+#nav-write-btn {
+    margin-left: -25px;
+}
+
 .inner-wrapper,
 .side-nav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+}
+
+.side-nav {
+    padding: 0;
 }
 
 /*circular buttons*/
@@ -48,11 +58,11 @@ textarea {
 /********** WRITE SCREEN **********/
 
 #brainstorm-body-container {
-    height: 200px;           /* random choice, change however you'd like */
+    height: 250px;           /* random choice, change however you'd like */
 }
 
 #brainstorm-body-input {
-    height: 200px;
+    height: 250px;
 }
 
 .fa-lightbulb-o {
@@ -60,6 +70,7 @@ textarea {
     position: absolute;
     top: 30%;
     right: 5%;
+    padding: 10px;
 }
 .fa-lightbulb-o:hover,
 .fa-lightbulb-o:focus,
@@ -108,6 +119,7 @@ textarea {
 }
 .tile-title {
     height: 25%;
+    margin-top: 10px;
     overflow: hidden;
 }
 .tile-body {
@@ -170,6 +182,7 @@ label {
 /********** G L O B A L **********/
 
 body, html {
+    /*height: calc(100% - 50px);*/
     height: 100%;
 }
 
