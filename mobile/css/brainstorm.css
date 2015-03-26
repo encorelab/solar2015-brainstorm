@@ -32,10 +32,9 @@
     border: none;
     color: #fff;
     background: #c31fa4;
+    padding: 0;
 }
-.btn-circular:hover,
-.btn-circular:focus,
-.btn-circular:active {
+.btn-circular:hover {
     background: #db7bc8;
 }
 
@@ -68,13 +67,11 @@ textarea {
 .fa-lightbulb-o {
     color: #c31fa4;
     position: absolute;
-    top: 30%;
-    right: 5%;
-    padding: 10px;
+    top: 25%;
+    right: 2%;
+    padding: 10px 20px;
 }
-.fa-lightbulb-o:hover,
-.fa-lightbulb-o:focus,
-.fa-lightbulb-o:active {
+.fa-lightbulb-o:hover {
     color: #DB77C8;
 }
 
@@ -95,7 +92,7 @@ textarea {
 }
 
 #others-tiles-list > li {
-    outline: 2px dotted #db7bc8;
+    outline: 2px dashed #db7bc8;
 }
 /*to create the square tiles http://stackoverflow.com/questions/20456694/grid-of-responsive-squares*/
 .tile-container {
@@ -130,6 +127,16 @@ textarea {
     height: 20%;
     padding-top: 5px;
 }
+
+@media handheld and (orientation: landscape) {
+    .tile-body {
+        height: 58%;
+    }
+    .tile-author {
+        padding-top: 10px;
+    }
+}
+
 
 #lock-screen {
     height: 100%;
