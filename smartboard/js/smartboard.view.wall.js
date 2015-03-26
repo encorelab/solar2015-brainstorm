@@ -153,19 +153,26 @@
 
       bv.render();
       brainstorm.save().done(function() {
+        // If it isn't brainstorm show it and if it is brainstorm only show it on publish
+        if ( !(brainstorm instanceof Skeletor.Model.Brainstorm) || ((brainstorm instanceof Skeletor.Model.Brainstorm) && brainstorm.get('published')) ) {
+            bv.$el.css('visibility', 'visible');
+        } else {
+          console.log("Invisible man");
+        }
+
         //WARNING: IMPLICIT AS HELL DAWG
         // we need a condition to determine if the 'brainstorm' is a balloon or a tag. For now, saying that if it has an author, it should be a balloon, if not it is a tag
-        if (brainstorm.get('author')) {
-          // only show balloon if published is true
-          // if it isn't we listen to change:publish in the balloon view
-          if (brainstorm.get('published')) {
-            bv.$el.css('visibility', 'visible');
-          }
-        }
-        // this else is to show the Tag balloons
-        else {
-          bv.$el.css('visibility', 'visible');
-        }
+        // if (brainstorm.get('author')) {
+        //   // only show balloon if published is true
+        //   // if it isn't we listen to change:publish in the balloon view
+        //   if (brainstorm.get('published')) {
+        //     bv.$el.css('visibility', 'visible');
+        //   }
+        // }
+        // // this else is to show the Tag balloons
+        // else {
+        //   bv.$el.css('visibility', 'visible');
+        // }
 
       });
 
