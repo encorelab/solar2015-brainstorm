@@ -74,8 +74,9 @@ textarea {
 
 /********** READ SCREEN **********/
 
-#read-screen {
-    top: 310px;
+#read-screen .inner-wrapper {
+    height: 100%;
+    margin-top: 75px;
 }
 
 #my-tiles-list > li {
