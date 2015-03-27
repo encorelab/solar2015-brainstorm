@@ -174,8 +174,8 @@
         balloon.$el.addClass('unpublished');
       }
 
-      title = balloon.findOrCreate('.title', "<h3 class='title'></h3>");
-      title.text(balloon.model.get('title'));
+      balloon.findOrCreate('.title', "<h3 class='title'></h3>");
+      title.text(balloon.model.get('title'));title =
 
       body = balloon.findOrCreate('.body', "<div class='body'></div>");
       if (balloon.model.get('content_type') === 'text') {
@@ -295,6 +295,12 @@
 
       var noteBody = balloon.findOrCreate('.body', "<div class='body'></div>");
       noteBody.text(balloon.model.get('body'));
+
+      // balloon.findOrCreate('.meta', "<div class='meta'><span class='author'></span></div>");
+      // title.text(balloon.model.get('title'));
+
+      var meta = balloon.findOrCreate('.meta', "<div class='meta'><span class='author'></span></div>");
+      meta.find('.author').text(balloon.model.get('author')).addClass("author-" + (balloon.model.get('author')));
 
       // balloon.addClass('note');
       balloon.$el.addClass('note');
