@@ -75,7 +75,7 @@
         // create a brainstorm object
         view.model = new Model.Brainstorm();
         view.model.set('author',app.username);
-        view.model.set('publish',false);
+        view.model.set('published',false);
         view.model.wake(app.config.wakeful.url);
         view.model.save();
         view.collection.add(view.model);
@@ -102,12 +102,16 @@
     cancelBrainstorm: function() {
       var view = this;
 
+      // if there is a brainstorm
       if (view.model) {
-        app.clearAutoSaveTimer();
-        view.model.destroy();
-        // and we need to set it to null to 'remove' it from the local collection
-        view.model = null;
-        jQuery('.input-field').val('');
+        // confirm delete
+        if (confirm("Are you sure you want to delete this brainstorm?")) {
+          app.clearAutoSaveTimer();
+          view.model.destroy();
+          // and we need to set it to null to 'remove' it from the local collection
+          view.model = null;
+          jQuery('.input-field').val('');
+        }
       }
     },
 

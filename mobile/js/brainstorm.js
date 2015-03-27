@@ -143,8 +143,7 @@
       console.log('State model initialized - now waking up');
       app.runState = Skeletor.getState('RUN');
       app.runState.wake(app.config.wakeful.url);
-      app.updateRunState();
-      app.runState.on('change', app.updateRunState);
+      app.runState.on('change', app.reflectRunState);
     })
     .done(function () {
       ready();
@@ -157,9 +156,11 @@
     setUpClickListeners();
     wireUpViews();
 
-    // show the first screen
+    // decide on which screens to show/hide
     app.hideAllContainers();
-    jQuery('#read-screen').removeClass('hidden');
+    //jQuery('#read-screen').removeClass('hidden');
+    // check if the state is paused and update screens accordingly - unhiding the start screen is now handled in reflectRunState
+    app.reflectRunState();
   };
 
   var setupUI = function() {
@@ -372,7 +373,7 @@
     }
   };
 
-  app.updateRunState = function() {
+  app.reflectRunState = function() {
     // currently only used for pause, but could be expanded for different states (eg brainstorm vs proposal)
 
     // checking paused status
@@ -383,7 +384,8 @@
     } else if (app.runState.get('paused') === false) {
       console.log('Unlocking screen...');
       jQuery('#lock-screen').addClass('hidden');
-      jQuery('.user-screen').removeClass('hidden');
+      // we need to always to push users to a screen (can't just unhide all screens), so chose this one... think more about this for next iteration - could move back to old lock screen covering everything instead of hide/show
+      jQuery('#read-screen').removeClass('hidden');
     }
   };
 
