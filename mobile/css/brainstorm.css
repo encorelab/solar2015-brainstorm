@@ -43,12 +43,24 @@ textarea {
 }
 
 .sentence-starter {
-    background: #fff;
+    background: #e6a5da;
     width: 100%;
     text-align: left;
+    border-radius: 0;
 }
 .sentence-starter:hover{
     background: #db7bc8;
+}
+
+#tile-details .modal-content,
+#sentence-starter-modal .modal-content {
+    border-radius: 0;
+    border: 2px solid #c31fa4;
+}
+
+#tile-details .tile-author {
+    padding-top: 10px;
+    color: #c31fa4;
 }
 
 
@@ -73,10 +85,6 @@ textarea {
 }
 .fa-lightbulb-o:hover {
     color: #DB77C8;
-}
-
-#sentence-starter-modal .modal-content {
-    background: #e6a5da;
 }
 
 
@@ -254,15 +262,6 @@ textarea {
     min-width: 160px;
 }
 
-/*removing linear gradients from button defaults - remove??*/
-/*.sentence-starter,
-.sentence-starter:hover,
-.sentence-starter:focus,
-.sentence-starter:active {
-    background-image: none;
-    text-shadow: none;
-}*/
-
 /*so the scroll bar appears at all times*/
 ::-webkit-scrollbar {
     -webkit-appearance: none;
@@ -335,6 +334,16 @@ input:disabled {
 
 
 /********** M E D I A  Q U E R I E S **********/
+
+/* Extra small devices (phones, less than 768px) */
+@media all and (max-width: 768px) {
+
+    #nav-read-btn,
+    #nav-write-btn {
+        margin-left: 25px;
+    }
+
+}
 
 /* Large devices (LARGE DESKTOPS, 1200px and up) */
 @media all and (min-width: 1200px) {

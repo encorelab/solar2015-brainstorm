@@ -52,7 +52,7 @@
       if (!view.model) {
         view.checkToAddNewBrainstorm();
       }
-      jQuery('#sentence-starter-modal').modal({keyboard: false, backdrop: 'static'});
+      jQuery('#sentence-starter-modal').modal({keyboard: true, backdrop: true});
       // I think this needs to go so that can click anywhere to exit modal, but not working
       // jQuery('#sentence-starter-modal').modal();
     },
@@ -190,7 +190,7 @@
       jQuery('#tile-details .tile-author').text("- " + brainstorm.get('author'));
 
 
-      jQuery('#tile-details').modal({keyboard: false, backdrop: 'static'});
+      jQuery('#tile-details').modal({keyboard: true, backdrop: true});
     },
 
     populateList: function(brainstorms, listId) {

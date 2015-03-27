@@ -294,7 +294,7 @@
       var titleText = '';
       if (balloon.model.get('title')) {
         if (balloon.model.get('title').length > 70) {
-          titleText = balloon.model.get('title').slice(0, 70) + '...';
+          titleText = balloon.model.get('title').slice(0, 32) + '...';
         } else {
           titleText = balloon.model.get('title');
         }
