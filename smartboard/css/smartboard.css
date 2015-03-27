@@ -1,5 +1,6 @@
 /*csslint gradients: false, font-sizes: false */
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400,600);
+/* TODO: This needed here? We also pull the CSS in HTML. Maybe remove it in the HTML */
+@import url(///fonts.googleapis.com/css?family=Open+Sans:300italic,400,600);
 body {
   font-family: Ubuntu, sans-serif;
 }
