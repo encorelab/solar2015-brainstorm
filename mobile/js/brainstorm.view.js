@@ -53,8 +53,6 @@
         view.checkToAddNewBrainstorm();
       }
       jQuery('#sentence-starter-modal').modal({keyboard: true, backdrop: true});
-      // I think this needs to go so that can click anywhere to exit modal, but not working
-      // jQuery('#sentence-starter-modal').modal();
     },
 
     appendSentenceStarter: function(ev) {
