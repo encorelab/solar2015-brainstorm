@@ -253,8 +253,8 @@ button:hover {
   position: absolute;
   width: 170px;
   display: inline-block;
-  min-height: 64px;
-  padding: 0 10px;
+  min-height: 45px;
+  padding: 0 5px;
   text-align: center;
   background: #fff;
   overflow: hidden;
@@ -263,11 +263,26 @@ button:hover {
   transition: height 1s ease 0;
   max-height: 95%;
 }
-.content.balloon:nth-child(even) {
+.content.balloon:nth-child(6n) {
   border: 2px solid #c31fa4;
 }
-.content.balloon:nth-child(odd) {
+.content.balloon:nth-child(6n+1) {
+  border: 2px solid #d922b7;
+}
+.content.balloon:nth-child(6n+2) {
+  border: 2px solid #ecb9e2;
+}
+.content.balloon:nth-child(6n+3) {
+  border: 2px solid #ad1c91;
+}
+.content.balloon:nth-child(6n+4) {
   border: 2px solid #e6a5da;
+}
+.content.balloon:nth-child(6n+5) {
+  border: 2px solid #df36bf;
+}
+.content.balloon .title {
+  margin-bottom: 5px;
 }
 .content.balloon .headline {
   margin-top: 8px;
@@ -395,8 +410,9 @@ button:hover {
   background-color: white;
   overflow-y: scroll;
 }
-.content.balloon.opened h3 {
-  font-size: 2em;
+.content.balloon.opened .title {
+  font-size: 1.9em;
+  margin-top: 20px;
 }
 .content.balloon.opened .body {
   display: block;

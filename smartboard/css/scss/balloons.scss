@@ -1,4 +1,4 @@
-$min-balloon-height: 64px;
+$min-balloon-height: 45px;
 $lightbulb-height: 70px;
 
 $content-balloon-base-color: #fff;
@@ -12,7 +12,7 @@ $tag-balloon-text-color: black;
     display: inline-block;
     min-height: $min-balloon-height;
     // border: 2px solid #c31fa4;
-    padding: 0 10px;
+    padding: 0 5px;
     text-align: center;
     background: #fff;
 
@@ -23,11 +23,23 @@ $tag-balloon-text-color: black;
 
     @include transition-property(1s, height);
 
-    &:nth-child(even) {
+    &:nth-child(6n) {
         border: 2px solid $dark-pink;
     }
-    &:nth-child(odd) {
+    &:nth-child(6n+1) {
+        border: 2px solid lighten($dark-pink, 5%);
+    }
+    &:nth-child(6n+2) {
+        border: 2px solid lighten($light-pink, 5%);
+    }
+    &:nth-child(6n+3) {
+        border: 2px solid darken($dark-pink, 5%);
+    }
+    &:nth-child(6n+4) {
         border: 2px solid $light-pink;
+    }
+    &:nth-child(6n+5) {
+        border: 2px solid lighten($dark-pink, 10%);
     }
 
 
@@ -40,6 +52,9 @@ $tag-balloon-text-color: black;
 
     // overflow-y: auto;
 
+    .title {
+        margin-bottom: 5px;
+    }
 
     .headline {
         margin-top: 8px;
@@ -203,8 +218,9 @@ $tag-balloon-text-color: black;
 
         overflow-y: scroll;
     }
-    &.opened h3 {
-        font-size: 2em;
+    &.opened .title {
+        font-size: 1.9em;
+        margin-top: 20px;
     }
     &.opened .body {
         display: block;
