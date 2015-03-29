@@ -11,7 +11,7 @@ $tag-balloon-text-color: black;
     width: 170px;
     display: inline-block;
     min-height: $min-balloon-height;
-    border: 2px solid #c31fa4;
+    // border: 2px solid #c31fa4;
     padding: 0 10px;
     text-align: center;
     background: #fff;
@@ -22,6 +22,13 @@ $tag-balloon-text-color: black;
     overflow: hidden;
 
     @include transition-property(1s, height);
+
+    &:nth-child(even) {
+        border: 2px solid $dark-pink;
+    }
+    &:nth-child(odd) {
+        border: 2px solid $light-pink;
+    }
 
 
     // background: -moz-linear-gradient(top, $content-balloon-base-color 0%, darken($content-balloon-base-color, 4%) 50%, darken($content-balloon-base-color, 12%) 51%, darken($content-balloon-base-color, 3%) 100%); /* FF3.6+ */

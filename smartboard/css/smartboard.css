@@ -254,7 +254,6 @@ button:hover {
   width: 170px;
   display: inline-block;
   min-height: 64px;
-  border: 2px solid #c31fa4;
   padding: 0 10px;
   text-align: center;
   background: #fff;
@@ -263,6 +262,12 @@ button:hover {
   -moz-transition: height 1s ease 0;
   transition: height 1s ease 0;
   max-height: 95%;
+}
+.content.balloon:nth-child(even) {
+  border: 2px solid #c31fa4;
+}
+.content.balloon:nth-child(odd) {
+  border: 2px solid #e6a5da;
 }
 .content.balloon .headline {
   margin-top: 8px;
@@ -386,7 +391,7 @@ button:hover {
 }
 .content.balloon.opened {
   width: 100%;
-  max-width: 240px;
+  max-width: 350px;
   background-color: white;
   overflow-y: scroll;
 }
@@ -396,6 +401,9 @@ button:hover {
 .content.balloon.opened .body {
   display: block;
   font-size: 1.5em;
+}
+.content.balloon.opened .author {
+  padding-top: 5px;
 }
 .content.balloon.opened .buildons {
   display: block;
