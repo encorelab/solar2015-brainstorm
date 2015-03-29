@@ -190,15 +190,21 @@ $tag-balloon-text-color: black;
 
     &.opened {
         // min-width: 200px;
-        max-width: 240px;
+        width: 100%;
+        max-width: 350px;
         background-color: rgba($content-balloon-base-color, 1.0);
 
         overflow-y: scroll;
-
-        //background: rgba($content-balloon-base-color, 1.0);
+    }
+    &.opened h3 {
+        font-size: 2em;
     }
     &.opened .body {
         display: block;
+        font-size: 1.5em;
+    }
+    &.opened .author {
+        padding-top: 5px;
     }
     &.opened .buildons {
         display: block;
