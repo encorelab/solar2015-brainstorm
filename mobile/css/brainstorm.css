@@ -300,6 +300,11 @@ textarea {
 
 /********** N A V B A R **********/
 
+.navbar-inverse .navbar-nav>.active>a {
+    background-image: -webkit-linear-gradient(to bottom,#3c3c3c 0,#222 100%);
+    background-image: linear-gradient(to bottom,#3c3c3c 0,#222 100%);
+}
+
 /* This hides any element with class alert directly after an input field with a pattern (regex) */
 input[pattern] + .alert {
     display: none;
