@@ -293,7 +293,7 @@
       var title = balloon.findOrCreate('.title', "<h3 class='title'></h3>");
       var titleText = '';
       if (balloon.model.get('title')) {
-        if (balloon.model.get('title').length > 70) {
+        if (balloon.model.get('title').length > 35) {
           titleText = balloon.model.get('title').slice(0, 32) + '...';
         } else {
           titleText = balloon.model.get('title');
