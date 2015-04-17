@@ -11,7 +11,8 @@
     routes: {
       '' : 'index',
       'ben': 'initClassBen',
-      'michael': 'initClassMichael'
+      'michael': 'initClassMichael',
+      'test': 'initClassTest'
     },
     initialize: function() {
 
@@ -24,6 +25,9 @@
     },
     initClassMichael: function () {
       Skeletor.Smartboard.init('michael');
+    },
+    initClassTest: function () {
+      Skeletor.Smartboard.init('test');
     },
     start: function() {
       // to allow single page app with various routes
